@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const dev = require("./config");
 const connectDB = require("./config/db");
-const userRouter = require("./routes");
+const userRouter = require("./routes/users");
 
 const app = express();
 
@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/users", userRouter);
 
+// API TEST
 app.get("/", (req, res) => {
   res.status(200).json({ message: "API is good" });
 });

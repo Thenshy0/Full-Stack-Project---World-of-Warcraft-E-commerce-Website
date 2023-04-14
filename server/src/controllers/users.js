@@ -2,6 +2,7 @@ const { securePassword } = require("../helpers/bcryptPassword");
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 const dev = require("../config");
+const { sendEmailWithNodeMailer } = require("../helpers/email");
 
 const registerUser = async (req, res) => {
   try {
@@ -32,11 +33,23 @@ const registerUser = async (req, res) => {
     const hashedPassword = await securePassword(password);
     const token = jwt.sign(
       { name, email, phone, hashedPassword, image },
-      dev.app.jwtSecretKey
+      dev.app.jwtSecretKey,
+      { expiresIn: "10min" }
     );
+    // prepare the email
+    const emailData = {
+      email,
+      subject: "Account Activation Email",
+      html: `
+        <h2> Hello ${name} . </h2>
+        <p> Please click here to <a href="${dev.app.clientUrl}/api/users/activate/${token}" target="_blank"> activate your account </a></p>     
+        `,
+    };
 
-    res.status(201).json({
-      message: "user is created",
+    sendEmailWithNodeMailer(emailData);
+
+    res.status(200).json({
+      message: "A verification link has been sent to your email.",
       token: token,
     });
   } catch (error) {
