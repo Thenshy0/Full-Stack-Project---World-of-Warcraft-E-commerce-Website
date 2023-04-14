@@ -1,4 +1,5 @@
 const { securePassword } = require("../helpers/bcryptPassword");
+const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 const dev = require("../config");
@@ -59,4 +60,58 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser };
+const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.body;
+    if (!token) {
+      return res.status(404).json({
+        message: "token is missing",
+      });
+    }
+    jwt.verify(token, dev.app.jwtSecretKey, async function (err, decoded) {
+      if (err) {
+        return res.status(401).json({
+          message: "token is expired",
+        });
+      }
+      //   decoded the data
+      const { name, email, hashedPassword, phone, image } = decoded;
+      const isExist = await User.findOne({ email: email });
+      if (isExist) {
+        res.status(400).json({
+          message: "user with this email is already exist",
+        });
+      }
+      //   create the user
+      const newUser = new User({
+        name: name,
+        email: email,
+        password: hashedPassword,
+        phone: phone,
+        is_verified: 1,
+      });
+      if (image) {
+        newUser.image.data = fs.readFileSync(image.path);
+        newUser.image.contentType = image.type;
+      }
+
+      //   save the user
+      const user = await newUser.save();
+      if (!user) {
+        res.status(400).json({
+          message: "user was not created",
+        });
+      }
+      res.status(200).json({
+        user,
+        message: "user was created, ready to sign in",
+      });
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { registerUser, verifyEmail };
