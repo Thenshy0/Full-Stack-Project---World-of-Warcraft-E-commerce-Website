@@ -1,5 +1,7 @@
 const { securePassword } = require("../helpers/bcryptPassword");
+const jwt = require("jsonwebtoken");
 const User = require("../models/users");
+const dev = require("../config");
 
 const registerUser = async (req, res) => {
   try {
@@ -28,9 +30,14 @@ const registerUser = async (req, res) => {
       });
     }
     const hashedPassword = await securePassword(password);
+    const token = jwt.sign(
+      { name, email, phone, hashedPassword, image },
+      dev.app.jwtSecretKey
+    );
 
     res.status(201).json({
       message: "user is created",
+      token: token,
     });
   } catch (error) {
     res.status(500).json({
