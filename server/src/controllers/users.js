@@ -142,6 +142,7 @@ const loginUser = async (req, res) => {
         message: "email/password does not match",
       });
     }
+    req.session.userId = user._id;
 
     res.status(200).json({
       user: {
@@ -158,19 +159,10 @@ const loginUser = async (req, res) => {
     });
   }
 };
-const userProfile = (req, res) => {
-  try {
-    res.status(200).json({
-      message: "Profile returned",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
 const logoutUser = (req, res) => {
   try {
+    req.session.destroy();
+    res.clearCookie("user-session");
     res.status(200).json({
       message: "logout successful",
     });
@@ -180,11 +172,161 @@ const logoutUser = (req, res) => {
     });
   }
 };
+const userProfile = async (req, res) => {
+  try {
+    const userData = await User.findById(req.session.userId, { password: 0 });
+    res.status(200).json({
+      message: "Profile returned",
+      user: userData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const deleteUser = async (req, res) => {
+  try {
+    const userData = await User.findByIdAndDelete(req.session.userId);
+    res.status(200).json({
+      message: "User was deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const updateUser = async (req, res) => {
+  try {
+    const hashedPassword = await securePassword(req.fields.password);
+    const userData = await User.findByIdAndUpdate(
+      req.session.userId,
+      {
+        ...req.fields,
+        password: hashedPassword,
+      },
+      { new: true }
+    );
+    if (!userData) {
+      res.status(400).json({
+        message: "User was not updated",
+      });
+    }
+    if (req.files.image) {
+      const { image } = req.files;
+      userData.image.data = fs.readFileSync(image.path);
+      userData.image.contentType = image.type;
+    }
+    await userData.save();
+    res.status(200).json({
+      message: "User was updated",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const forgetPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
+    if (!email || !password) {
+      res.status(404).json({
+        message: " email or password is missing",
+      });
+    }
+    if (password.length < 6) {
+      res.status(404).json({
+        message: "minimum length for password is 6 characters",
+      });
+    }
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).json({
+        message: "user with this email was not found",
+      });
+    }
+    const hashedPassword = await securePassword(password);
+    const token = jwt.sign({ email, hashedPassword }, dev.app.jwtSecretKey, {
+      expiresIn: "10min",
+    });
+    // prepare the email
+    const emailData = {
+      email,
+      subject: "Reset your password",
+      html: `
+        <h2> Hello ${user.name} . </h2>
+        <p> Please click here to <a href="${dev.app.clientUrl}/api/users/reset-password/${token}" target="_blank"> reset your password </a></p>     
+        `,
+    };
+
+    sendEmailWithNodeMailer(emailData);
+    res.status(200).json({
+      message: "An email has been sent for reseting password",
+      token: token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.body;
+    if (!token) {
+      return res.status(404).json({
+        message: "token is missing",
+      });
+    }
+    jwt.verify(token, dev.app.jwtSecretKey, async function (err, decoded) {
+      if (err) {
+        return res.status(401).json({
+          message: "token is expired",
+        });
+      }
+      //   decoded the data
+      const { email, hashedPassword } = decoded;
+      const isExist = await User.findOne({ email: email });
+      if (!isExist) {
+        res.status(400).json({
+          message: "user with this email does not exist",
+        });
+      }
+      //   update the user
+      const updateData = await User.updateOne(
+        { email: email },
+        {
+          $set: {
+            password: hashedPassword,
+          },
+        }
+      );
+      if (!updateData) {
+        res.status(400).json({
+          message: "reset password was unsuccessful",
+        });
+      }
+      res.status(200).json({
+        message: "Password reset was successful",
+      });
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   registerUser,
   verifyEmail,
   loginUser,
   logoutUser,
   userProfile,
+  deleteUser,
+  updateUser,
+  forgetPassword,
+  resetPassword,
 };
