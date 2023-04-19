@@ -81,6 +81,7 @@ const getAllusers = async (req, res) => {
         { phone: { $regex: ".*" + search + ".*", $options: "i" } },
       ],
     })
+      .sort({ name: 1 })
       .limit(limit)
       .skip((page - 1) * limit);
 
