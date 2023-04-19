@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 const dev = require("../config");
 const { sendEmailWithNodeMailer } = require("../helpers/email");
+const ExcelJS = require("exceljs");
 
 const loginAdmin = async (req, res) => {
   try {
@@ -127,11 +128,55 @@ const updateUserByAdmin = async (req, res) => {
     });
   }
 };
+const exportUsers = async (req, res) => {
+  try {
+    const workbook = new ExcelJS.Workbook();
 
+    // Add a new worksheet
+    const worksheet = workbook.addWorksheet("Users");
+
+    // Add data to the worksheet
+
+    worksheet.columns = [
+      { header: "Name", key: "name" },
+      { header: "Email", key: "email" },
+      { header: "Password", key: "password" },
+      { header: "Image", key: "image" },
+      { header: "Phone", key: "phone" },
+      { header: "Is Admin", key: "is_admin" },
+    ];
+
+    const userData = await User.find({ is_admin: 0 });
+    userData.map((user) => {
+      worksheet.addRow(user);
+    });
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true };
+    });
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=" + "users.xlsx"
+    );
+    // Save the workbook to a file
+    return workbook.xlsx.write(res).then(() => {
+      res.status(200).end();
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   loginAdmin,
   logoutAdmin,
   getAllusers,
   deleteUserbyAdmin,
   updateUserByAdmin,
+  exportUsers,
 };

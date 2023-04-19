@@ -9,6 +9,7 @@ const {
   getAllusers,
   deleteUserbyAdmin,
   updateUserByAdmin,
+  exportUsers,
 } = require("../controllers/admin");
 const isAdmin = require("../middlewares/isAdmin");
 const { registerUser } = require("../controllers/users");
@@ -25,7 +26,6 @@ adminRouter.use(
 );
 adminRouter.post("/login", isLoggedOut, loginAdmin);
 adminRouter.get("/logout", isLoggedIn, logoutAdmin);
-
 adminRouter.get("/dashboard", isLoggedIn, getAllusers);
 adminRouter.post("/register", upload.single("image"), registerUser);
 adminRouter.put(
@@ -36,5 +36,6 @@ adminRouter.put(
   updateUserByAdmin
 );
 adminRouter.delete("/dashboard/:id", isLoggedIn, isAdmin, deleteUserbyAdmin);
+adminRouter.get("/dashboard/export-data", exportUsers);
 
 module.exports = adminRouter;
