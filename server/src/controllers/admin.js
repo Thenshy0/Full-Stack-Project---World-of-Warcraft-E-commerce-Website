@@ -71,7 +71,10 @@ const logoutAdmin = (req, res) => {
 };
 const getAllusers = async (req, res) => {
   try {
-    const users = await User.find({ is_admin: 0 });
+    const { page = 1, limit = 2 } = req.query;
+    const users = await User.find({ is_admin: 0 })
+      .limit(limit)
+      .skip((page - 1) * limit);
     res.status(200).json({
       message: "return all users",
       users: users,
