@@ -10,30 +10,26 @@ const { sendEmailWithNodeMailer } = require("../helpers/email");
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, phone, password } = req.fields;
-    const { image } = req.files;
-    if (!name || !email || !phone || !password) {
-      res.status(404).json({
-        message: "name, email, phone or password is missing",
-      });
-    }
-    if (password.length < 6) {
-      res.status(404).json({
-        message: "minimum length for password is 6 characters",
-      });
-    }
-    if (image && image.size > 1000000) {
-      res.status(400).json({
-        message: "maximum size for image is 1mb",
-      });
-    }
-
+    const { name, email, phone, password } = req.body;
     const isExist = await User.findOne({ email: email });
     if (isExist) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "user with this email is already exist",
       });
     }
+    if (!name || !email || !phone || !password) {
+      return res.status(404).json({
+        message: "name, email, phone or password is missing",
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(404).json({
+        message: "minimum length for password is 6 characters",
+      });
+    }
+
+    const { image } = req.file.filename;
     const hashedPassword = await securePassword(password);
     const token = jwt.sign(
       { name, email, phone, hashedPassword, image },
@@ -120,25 +116,25 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      res.status(404).json({
+      return res.status(404).json({
         message: " email or password is missing",
       });
     }
     if (password.length < 6) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "minimum length for password is 6 characters",
       });
     }
     const user = await User.findOne({ email: email });
     if (!user) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "user with this email does not exist, please register first",
       });
     }
 
     const isPasswordMatch = await comparePassword(password, user.password);
     if (!isPasswordMatch) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "email/password does not match",
       });
     }
@@ -187,7 +183,7 @@ const userProfile = async (req, res) => {
 };
 const deleteUser = async (req, res) => {
   try {
-    const userData = await User.findByIdAndDelete(req.session.userId);
+    await User.findByIdAndDelete(req.session.userId);
     res.status(200).json({
       message: "User was deleted",
     });
@@ -199,12 +195,13 @@ const deleteUser = async (req, res) => {
 };
 const updateUser = async (req, res) => {
   try {
-    const hashedPassword = await securePassword(req.fields.password);
+    const hashedPassword = await securePassword(req.body.password);
     const userData = await User.findByIdAndUpdate(
       req.session.userId,
       {
-        ...req.fields,
+        ...req.body,
         password: hashedPassword,
+        image: req.file,
       },
       { new: true }
     );
@@ -212,11 +209,6 @@ const updateUser = async (req, res) => {
       res.status(400).json({
         message: "User was not updated",
       });
-    }
-    if (req.files.image) {
-      const { image } = req.files;
-      userData.image.data = fs.readFileSync(image.path);
-      userData.image.contentType = image.type;
     }
     await userData.save();
     res.status(200).json({

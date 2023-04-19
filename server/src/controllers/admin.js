@@ -17,7 +17,7 @@ const loginAdmin = async (req, res) => {
       });
     }
     if (password.length < 6) {
-      res.status(404).json({
+      res.status(400).json({
         message: "minimum length for password is 6 characters",
       });
     }
@@ -28,7 +28,7 @@ const loginAdmin = async (req, res) => {
       });
     }
     if (user.is_admin === 0) {
-      return res.status(400).json({
+      return res.status(401).json({
         message: "user is not an admin",
       });
     }
@@ -68,8 +68,70 @@ const logoutAdmin = (req, res) => {
     });
   }
 };
+const getAllusers = async (req, res) => {
+  try {
+    const users = await User.find({ is_admin: 0 });
+    res.status(200).json({
+      message: "return all users",
+      users: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const deleteUserbyAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const users = await User.findById(id);
+    if (!users) {
+      return res.status(404).json({
+        message: "user was not found with this id",
+      });
+    }
+    await User.findByIdAndDelete(id);
+    res.status(200).json({
+      message: "User was deleted by admin",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const updateUserByAdmin = async (req, res) => {
+  try {
+    const hashedPassword = await securePassword(req.body.password);
+    const userData = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...req.body,
+        password: hashedPassword,
+        image: req.file,
+      },
+      { new: true }
+    );
+    if (!userData) {
+      res.status(400).json({
+        message: "User was not updated",
+      });
+    }
+    await userData.save();
+    res.status(200).json({
+      message: "User was updated by Admin",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   loginAdmin,
   logoutAdmin,
+  getAllusers,
+  deleteUserbyAdmin,
+  updateUserByAdmin,
 };

@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const userRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
 const cookieParser = require("cookie-parser");
+
 const app = express();
 
 const PORT = dev.app.serverPort;
