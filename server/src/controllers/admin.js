@@ -71,12 +71,24 @@ const logoutAdmin = (req, res) => {
 };
 const getAllusers = async (req, res) => {
   try {
+    let search = req.query.search ? req.query.search : "";
     const { page = 1, limit = 2 } = req.query;
-    const users = await User.find({ is_admin: 0 })
+    const users = await User.find({
+      is_admin: 0,
+      $or: [
+        { name: { $regex: ".*" + search + ".*", $options: "i" } },
+        { email: { $regex: ".*" + search + ".*", $options: "i" } },
+        { phone: { $regex: ".*" + search + ".*", $options: "i" } },
+      ],
+    })
       .limit(limit)
       .skip((page - 1) * limit);
+
+    const count = await User.find({ is_admin: 0 }).countDocuments();
+
     res.status(200).json({
       message: "return all users",
+      total: count,
       users: users,
     });
   } catch (error) {
