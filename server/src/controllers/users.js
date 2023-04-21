@@ -2,7 +2,7 @@ const {
   securePassword,
   comparePassword,
 } = require("../helpers/bcryptPassword");
-const fs = require("fs");
+
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 const dev = require("../config");
@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
       });
     }
 
-    const { image } = req.file.filename;
+    const image = req.file && req.file.filename;
     const hashedPassword = await securePassword(password);
     const token = jwt.sign(
       { name, email, phone, hashedPassword, image },
@@ -87,12 +87,9 @@ const verifyEmail = async (req, res) => {
         email: email,
         password: hashedPassword,
         phone: phone,
+        image,
         is_verified: 1,
       });
-      if (image) {
-        newUser.image.data = fs.readFileSync(image.path);
-        newUser.image.contentType = image.type;
-      }
 
       //   save the user
       const user = await newUser.save();
