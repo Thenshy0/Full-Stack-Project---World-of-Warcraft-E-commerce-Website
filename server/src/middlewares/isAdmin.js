@@ -1,23 +1,21 @@
+const jwt = require("jsonwebtoken");
+const dev = require("../config");
+
 const User = require("../models/users");
+const createError = require("http-errors");
 
 const isAdmin = async (req, res, next) => {
   try {
-    if (req.session.userId) {
-      const adminData = await User.findById(req.session.userId);
-      if (adminData?.is_admin === 1) {
-        next();
-      } else {
-        res.status(401).json({
-          message: "you are not an admin",
-        });
-      }
-    } else {
-      res.status(400).json({
-        message: "user is not logged in, please login",
-      });
-    }
+    const authToken = req.headers.cookie;
+    if (!authToken) throw createError(401, "missing token");
+    const token = authToken.split("=")[1];
+    const decoded = jwt.verify(token, dev.app.jwtAuthorisationKey);
+    const admin = await User.findOne({ email: decoded.email });
+    if (!admin) throw createError(401, "invalid token");
+    if (admin.is_admin !== 1) throw createError(400, "you are not an admin");
+    next();
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 

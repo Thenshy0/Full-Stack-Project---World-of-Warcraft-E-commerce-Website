@@ -2,74 +2,65 @@ const {
   securePassword,
   comparePassword,
 } = require("../helpers/bcryptPassword");
-const fs = require("fs");
+const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 const dev = require("../config");
-const { sendEmailWithNodeMailer } = require("../helpers/email");
 const ExcelJS = require("exceljs");
+const { sendResponse } = require("../helpers/responseHandler");
 
-const loginAdmin = async (req, res) => {
+const loginAdmin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      res.status(404).json({
-        message: " email or password is missing",
-      });
-    }
-    if (password.length < 6) {
-      res.status(400).json({
-        message: "minimum length for password is 6 characters",
-      });
-    }
-    const user = await User.findOne({ email: email });
-    if (!user) {
-      res.status(400).json({
-        message: "user with this email does not exist, please register first",
-      });
-    }
-    if (user.is_admin === 0) {
-      return res.status(401).json({
-        message: "user is not an admin",
-      });
-    }
-    const isPasswordMatch = await comparePassword(password, user.password);
-    if (!isPasswordMatch) {
-      res.status(400).json({
-        message: "email/password does not match",
-      });
-    }
-    req.session.userId = user._id;
+    if (!email || !password)
+      throw createError(404, "email or password is missing");
+    if (password.length < 6)
+      throw createError(404, "minimum length for password is 6 characters");
 
-    res.status(200).json({
+    const user = await User.findOne({ email: email });
+    if (!user)
+      throw createError(
+        400,
+        "user with this email does not exist, please register first"
+      );
+    if (user.is_admin === 0) throw createError(401, "user is not an admin");
+    const isPasswordMatch = await comparePassword(password, user.password);
+    if (!isPasswordMatch)
+      throw createError(400, "email/password does not match");
+
+    const token = jwt.sign({ email }, dev.app.jwtAuthorisationKey, {
+      expiresIn: "5m",
+    });
+
+    // Send token to client
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 60 * 4),
+      secure: false,
+      sameSite: "none",
+    });
+    sendResponse(res, 200, "login successful as an admin", {
       user: {
+        id: user._id,
         name: user.name,
         email: user.email,
         phone: user.phone,
         image: user.image,
       },
-      message: "login successful",
     });
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    next(error);
   }
 };
-const logoutAdmin = (req, res) => {
+const logoutAdmin = (req, res, next) => {
   try {
-    req.session.destroy();
-    res.clearCookie("admin-session");
-    res.status(200).json({
-      message: "logout successful",
-    });
+    res.clearCookie("authToken");
+    sendResponse(res, 200, "logout successful");
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    next(error);
   }
 };
-const getAllusers = async (req, res) => {
+const getAllusers = async (req, res, next) => {
   try {
     let search = req.query.search ? req.query.search : "";
     const { page = 1, limit = 2 } = req.query;
@@ -86,38 +77,26 @@ const getAllusers = async (req, res) => {
       .skip((page - 1) * limit);
 
     const count = await User.find({ is_admin: 0 }).countDocuments();
-
-    res.status(200).json({
-      message: "return all users",
+    sendResponse(res, 200, "return all users", {
       total: count,
       users: users,
     });
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    next(error);
   }
 };
-const deleteUserbyAdmin = async (req, res) => {
+const deleteUserbyAdmin = async (req, res, next) => {
   try {
     const { id } = req.params;
     const users = await User.findById(id);
-    if (!users) {
-      return res.status(404).json({
-        message: "user was not found with this id",
-      });
-    }
+    if (!users) throw createError(404, "user was not found with this id");
     await User.findByIdAndDelete(id);
-    res.status(200).json({
-      message: "User was deleted by admin",
-    });
+    sendResponse(res, 200, `User was deleted by admin`);
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    next(error);
   }
 };
-const updateUserByAdmin = async (req, res) => {
+const updateUserByAdmin = async (req, res, next) => {
   try {
     const hashedPassword = await securePassword(req.body.password);
     const userData = await User.findByIdAndUpdate(
@@ -129,22 +108,14 @@ const updateUserByAdmin = async (req, res) => {
       },
       { new: true }
     );
-    if (!userData) {
-      res.status(400).json({
-        message: "User was not updated",
-      });
-    }
+    if (!userData) throw createError(400, "User was not updated");
     await userData.save();
-    res.status(200).json({
-      message: "User was updated by Admin",
-    });
+    sendResponse(res, 200, `User was updated by admin`);
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    next(error);
   }
 };
-const exportUsers = async (req, res) => {
+const exportUsers = async (req, res, next) => {
   try {
     const workbook = new ExcelJS.Workbook();
 
@@ -183,9 +154,7 @@ const exportUsers = async (req, res) => {
       res.status(200).end();
     });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    next(error);
   }
 };
 module.exports = {

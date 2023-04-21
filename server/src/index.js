@@ -6,6 +6,8 @@ const connectDB = require("./config/db");
 const userRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const createError = require("http-errors");
 
 const app = express();
 
@@ -25,4 +27,21 @@ app.get("/", (req, res) => {
 app.listen(PORT, async () => {
   console.log(`server is running at http://localhost:${PORT}`);
   await connectDB();
+});
+app.use(
+  cors({
+    original: "*",
+    credentials: true,
+  })
+);
+app.use((req, res, next) => {
+  next(createError(404, "Not Found"));
+});
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    error: {
+      status: err.status || 500,
+      message: err.message,
+    },
+  });
 });
