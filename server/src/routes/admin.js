@@ -13,7 +13,7 @@ const { registerUser } = require("../controllers/users");
 const upload = require("../middlewares/fileUpload");
 adminRouter.post("/login", isLoggedOut, loginAdmin);
 adminRouter.get("/logout", isLoggedIn, logoutAdmin);
-adminRouter.get("/dashboard", isLoggedIn, getAllusers);
+adminRouter.get("/dashboard", getAllusers); //isLoggedIn
 adminRouter.post("/register", upload.single("image"), registerUser);
 adminRouter.put(
   "/dashboard/update/:id",

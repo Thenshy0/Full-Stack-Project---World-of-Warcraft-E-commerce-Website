@@ -74,7 +74,12 @@ const verifyEmail = async (req, res, next) => {
       //   save the user
       const user = await newUser.save();
       if (!user) throw createError(400, "user was not created");
-      sendResponse(res, 200, "user was created, ready to sign in");
+      sendResponse(
+        res,
+        200,
+        "Your account has been activated successfully!",
+        token
+      );
     });
   } catch (error) {
     next(error);
