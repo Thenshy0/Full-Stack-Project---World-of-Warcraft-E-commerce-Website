@@ -1,33 +1,29 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
-function Login() {
+import { toast } from "react-toastify";
+import { loginUser } from "../services/UserService";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../features/userSlice";
+
+const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    const response = await axios.post(
-      "http://localhost:8080/api/users/login",
-      {
-        email,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = response.data;
-    console.log(response);
-    localStorage.setItem("token", data.token);
-    toast(data.message);
-    navigate("/");
+    try {
+      const response = await loginUser({ email, password });
+      dispatch(login());
+      toast(response.message);
+      setIsLoggedIn(true);
+      navigate("/user-profile");
+    } catch (error) {
+      toast(error.response.data.error.message);
+      console.log(error.response.data.error.message);
+    }
   };
 
   return (
@@ -53,6 +49,6 @@ function Login() {
       <button type="submit">Login</button>
     </form>
   );
-}
+};
 
 export default Login;

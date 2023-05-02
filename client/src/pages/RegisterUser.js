@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { createUserRequest } from "../services/UserService";
+
 const CreateUser = () => {
   //  name, email, password, phone, image
 
@@ -37,6 +38,7 @@ const CreateUser = () => {
 
       const response = await createUserRequest(newUser);
       toast(response.message);
+      console.log(response.message);
 
       setName("");
       setEmail("");
@@ -45,6 +47,7 @@ const CreateUser = () => {
       setImage("");
     } catch (error) {
       toast(error.response.data.error.message);
+      console.log(error);
     }
   };
   return (

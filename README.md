@@ -8,7 +8,7 @@ This project is a user-management API for managing user-admin relationships usin
 - Secure password storage using bcrypt
 - CRUD (Create, Read, Update, Delete) operations for users and roles
 
-## Technologies Used
+## Technologies Used for backend
 
 - Node.js
 - Express.js
@@ -17,3 +17,5 @@ This project is a user-management API for managing user-admin relationships usin
 - JWT
 - bcrypt
 - nodemailer
+
+## Technologies Used for frontend

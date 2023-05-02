@@ -4,10 +4,9 @@ const createError = require("http-errors");
 
 const isLoggedIn = (req, res, next) => {
   try {
-    const authHeader = req.headers.cookie;
+    const authHeader = req.cookies.jwt;
     if (!authHeader) throw createError(401, "Please login");
-    const token = authHeader.split("=")[1];
-    const decoded = jwt.verify(token, dev.app.jwtAuthorisationKey);
+    jwt.verify(authHeader, dev.app.jwtRefreshKey);
     next();
   } catch (error) {
     next(error);
@@ -15,7 +14,7 @@ const isLoggedIn = (req, res, next) => {
 };
 const isLoggedOut = (req, res, next) => {
   try {
-    const authHeader = req.headers.cookie;
+    const authHeader = req.cookies.jwt;
     if (authHeader) throw createError(401, "Please logout");
     next();
   } catch (error) {

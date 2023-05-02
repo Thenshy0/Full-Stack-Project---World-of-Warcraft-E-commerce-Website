@@ -13,17 +13,17 @@ const registerUser = async (req, res, next) => {
   try {
     const { name, email, phone, password } = req.body;
     const user = await User.findOne({ email: email });
-    if (user) throw createError(400, "user with this email is already exist");
+    if (user) throw createError(400, "User with this email is already exist");
     if (!name || !email || !phone || !password)
-      throw createError(404, "name, email, phone or password is missing");
+      throw createError(404, "Name, email, phone or password is missing");
     if (password.length < 6)
-      throw createError(404, "minimum length for password is 6 characters");
+      throw createError(404, "Minimum length for password is 6 characters");
 
     const image = req.file && req.file.filename;
     const hashedPassword = await securePassword(password);
     const token = jwt.sign(
       { name, email, phone, hashedPassword, image },
-      dev.app.jwtSecretKey,
+      String(dev.app.jwtSecretKey),
       { expiresIn: "10min" }
     );
 
@@ -52,94 +52,47 @@ const registerUser = async (req, res, next) => {
 const verifyEmail = async (req, res, next) => {
   try {
     const { token } = req.body;
-    if (!token) throw createError(404, "token is missing");
-    jwt.verify(token, dev.app.jwtSecretKey, async function (err, decoded) {
-      if (err) throw createError(401, "token is expired");
+    if (!token) throw createError(404, "Token is missing");
+    jwt.verify(
+      token,
+      String(dev.app.jwtSecretKey),
+      async function (err, decoded) {
+        if (err) throw createError(401, "Token is expired");
 
-      //   decoded the data
-      const { name, email, hashedPassword, phone, image } = decoded;
-      const isExist = await User.findOne({ email: email });
-      if (isExist)
-        throw createError(400, "user with this email is already exist");
-      //   create the user
-      const newUser = new User({
-        name: name,
-        email: email,
-        password: hashedPassword,
-        phone: phone,
-        image,
-        is_verified: 1,
-      });
+        //   decoded the data
+        const { name, email, hashedPassword, phone, image } = decoded;
+        const isExist = await User.findOne({ email: email });
+        if (isExist)
+          throw createError(400, "User with this email is already exist");
+        //   create the user
+        const newUser = new User({
+          name: name,
+          email: email,
+          password: hashedPassword,
+          phone: phone,
+          image,
+          is_verified: 1,
+        });
 
-      //   save the user
-      const user = await newUser.save();
-      if (!user) throw createError(400, "user was not created");
-      sendResponse(
-        res,
-        200,
-        "Your account has been activated successfully!",
-        token
-      );
-    });
+        //   save the user
+        const user = await newUser.save();
+        if (!user) throw createError(400, "User was not created");
+        sendResponse(
+          res,
+          200,
+          "Your account has been activated successfully!",
+          token
+        );
+      }
+    );
   } catch (error) {
     next(error);
   }
 };
 
-const loginUser = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password)
-      throw createError(404, "email or password is missing");
-    if (password.length < 6)
-      throw createError(404, "minimum length for password is 6 characters");
-
-    const user = await User.findOne({ email: email });
-    if (!user)
-      throw createError(
-        400,
-        "user with this email does not exist, please register first"
-      );
-
-    const isPasswordMatch = await comparePassword(password, user.password);
-    if (!isPasswordMatch)
-      throw createError(400, "email/password does not match");
-    if (user.isBanned)
-      throw createError(400, "This account is banned, please contact an admin");
-    const token = jwt.sign({ email }, dev.app.jwtAuthorisationKey, {
-      expiresIn: "5m",
-    });
-
-    // Send token to client
-    res.cookie("authToken", token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 60 * 4),
-      secure: false,
-      sameSite: "none",
-    });
-    sendResponse(res, 200, "login successful", {
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        image: user.image,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-const logoutUser = (req, res, next) => {
-  try {
-    res.clearCookie("authToken");
-    sendResponse(res, 200, "logout successful");
-  } catch (error) {
-    next(error);
-  }
-};
 const userProfile = async (req, res, next) => {
   try {
+    console.log("profile");
     const id = req.params.id;
     const userData = await User.findById(id, { password: 0 });
     if (!userData) throw createError(404, "Profile is not found");
@@ -157,7 +110,7 @@ const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   try {
     const hashedPassword = await securePassword(req.body.password);
     const userData = await User.findByIdAndUpdate(
@@ -180,11 +133,11 @@ const forgetPassword = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password)
-      throw createError(404, "email or password is missing");
+      throw createError(404, "Email or password is missing");
     if (password.length < 6)
-      throw createError(404, "minimum length for password is 6 characters");
+      throw createError(404, "Minimum length for password is 6 characters");
     const user = await User.findOne({ email: email });
-    if (!user) throw createError(400, "user with this email was not found");
+    if (!user) throw createError(400, "User with this email was not found");
     const hashedPassword = await securePassword(password);
     const token = jwt.sign({ email, hashedPassword }, dev.app.jwtSecretKey, {
       expiresIn: "10min",
@@ -213,14 +166,14 @@ const forgetPassword = async (req, res, next) => {
 const resetPassword = async (req, res, next) => {
   try {
     const { token } = req.body;
-    if (!token) throw createError(404, "token is missing");
+    if (!token) throw createError(404, "Token is missing");
     jwt.verify(token, dev.app.jwtSecretKey, async function (error, decoded) {
-      if (error) throw createError(401, "token is expired");
+      if (error) throw createError(401, "Token is expired");
       //   decoded the data
       const { email, hashedPassword } = decoded;
       const isExist = await User.findOne({ email: email });
       if (!isExist)
-        throw createError(400, "user with this email does not exist");
+        throw createError(400, "User with this email does not exist");
       //   update the user
       const updateData = await User.updateOne(
         { email: email },
@@ -237,11 +190,10 @@ const resetPassword = async (req, res, next) => {
     next(error);
   }
 };
+
 module.exports = {
   registerUser,
   verifyEmail,
-  loginUser,
-  logoutUser,
   userProfile,
   deleteUser,
   updateUser,

@@ -6,13 +6,13 @@ const createError = require("http-errors");
 
 const isAdmin = async (req, res, next) => {
   try {
-    const authToken = req.headers.cookie;
-    if (!authToken) throw createError(401, "missing token");
-    const token = authToken.split("=")[1];
-    const decoded = jwt.verify(token, dev.app.jwtAuthorisationKey);
-    const admin = await User.findOne({ email: decoded.email });
-    if (!admin) throw createError(401, "invalid token");
-    if (admin.is_admin !== 1) throw createError(400, "you are not an admin");
+    const authHeader = req.cookies.jwt;
+    if (!authHeader) throw createError(401, "Please login");
+    const decoded = jwt.verify(authHeader, dev.app.jwtRefreshKey);
+    const user = await User.findOne({ email: decoded.email });
+    if (!user) throw createError(401, "invalid token");
+    if (user.is_admin !== 1) throw createError(400, "you are not an admin");
+    req.user = user;
     next();
   } catch (error) {
     next(error);

@@ -2,7 +2,7 @@ const adminRouter = require("express").Router();
 const { isLoggedIn, isLoggedOut } = require("../middlewares/auth");
 const {
   loginAdmin,
-  logoutAdmin,
+
   getAllusers,
   deleteUserbyAdmin,
   updateUserByAdmin,
@@ -11,9 +11,8 @@ const {
 const isAdmin = require("../middlewares/isAdmin");
 const { registerUser } = require("../controllers/users");
 const upload = require("../middlewares/fileUpload");
-adminRouter.post("/login", isLoggedOut, loginAdmin);
-adminRouter.get("/logout", isLoggedIn, logoutAdmin);
-adminRouter.get("/dashboard", getAllusers); //isLoggedIn
+
+adminRouter.get("/dashboard", getAllusers); //isLoggedIn, isAdmin
 adminRouter.post("/register", upload.single("image"), registerUser);
 adminRouter.put(
   "/dashboard/update/:id",
@@ -21,13 +20,13 @@ adminRouter.put(
   isAdmin,
   upload.single("image"),
   updateUserByAdmin
-);
+); //isLoggedIn , isAdmin
 adminRouter.delete(
   "/dashboard/delete/:id",
   isLoggedIn,
   isAdmin,
   deleteUserbyAdmin
-);
+); //isLoggedIn , isAdmin
 adminRouter.get("/dashboard/export-data", exportUsers);
 adminRouter.get("*", (req, res) => {
   res.status(404).json({

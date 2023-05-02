@@ -1,7 +1,4 @@
-const {
-  securePassword,
-  comparePassword,
-} = require("../helpers/bcryptPassword");
+const { securePassword } = require("../helpers/bcryptPassword");
 const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
@@ -9,61 +6,10 @@ const dev = require("../config");
 const ExcelJS = require("exceljs");
 const { sendResponse } = require("../helpers/responseHandler");
 
-const loginAdmin = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password)
-      throw createError(404, "email or password is missing");
-    if (password.length < 6)
-      throw createError(404, "minimum length for password is 6 characters");
-
-    const user = await User.findOne({ email: email });
-    if (!user)
-      throw createError(
-        400,
-        "user with this email does not exist, please register first"
-      );
-    if (user.is_admin === 0) throw createError(401, "user is not an admin");
-    const isPasswordMatch = await comparePassword(password, user.password);
-    if (!isPasswordMatch)
-      throw createError(400, "email/password does not match");
-
-    const token = jwt.sign({ email }, dev.app.jwtAuthorisationKey, {
-      expiresIn: "5m",
-    });
-
-    // Send token to client
-    res.cookie("authToken", token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 60 * 4),
-      secure: false,
-      sameSite: "none",
-    });
-    sendResponse(res, 200, "login successful as an admin", {
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        image: user.image,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-const logoutAdmin = (req, res, next) => {
-  try {
-    res.clearCookie("authToken");
-    sendResponse(res, 200, "logout successful");
-  } catch (error) {
-    next(error);
-  }
-};
 const getAllusers = async (req, res, next) => {
   try {
     let search = req.query.search ? req.query.search : "";
-    const { page = 1, limit = 2 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
     const users = await User.find({
       is_admin: 0,
       $or: [
@@ -77,7 +23,7 @@ const getAllusers = async (req, res, next) => {
       .skip((page - 1) * limit);
 
     const count = await User.find({ is_admin: 0 }).countDocuments();
-    sendResponse(res, 200, "return all users", {
+    sendResponse(res, 200, "Return all users", {
       total: count,
       users: users,
     });
@@ -89,7 +35,7 @@ const deleteUserbyAdmin = async (req, res, next) => {
   try {
     const { id } = req.params;
     const users = await User.findById(id);
-    if (!users) throw createError(404, "user was not found with this id");
+    if (!users) throw createError(404, "User was not found with this id");
     await User.findByIdAndDelete(id);
     sendResponse(res, 200, `User was deleted by admin`);
   } catch (error) {
@@ -108,7 +54,7 @@ const updateUserByAdmin = async (req, res, next) => {
       },
       { new: true }
     );
-    if (!userData) throw createError(400, "User was not updated");
+    if (!userData) throw createError(400, "Something went wrong, try again");
     await userData.save();
     sendResponse(res, 200, `User was updated by admin`);
   } catch (error) {
@@ -158,8 +104,6 @@ const exportUsers = async (req, res, next) => {
   }
 };
 module.exports = {
-  loginAdmin,
-  logoutAdmin,
   getAllusers,
   deleteUserbyAdmin,
   updateUserByAdmin,

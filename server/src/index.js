@@ -5,6 +5,7 @@ const dev = require("./config");
 const connectDB = require("./config/db");
 const userRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
+const authRouter = require("./routes/auth");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const createError = require("http-errors");
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/users", userRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/auth", authRouter);
 app.use("/public", express.static("public"));
 
 // API TEST
