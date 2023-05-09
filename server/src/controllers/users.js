@@ -21,6 +21,7 @@ const registerUser = async (req, res, next) => {
 
     const image = req.file && req.file.filename;
     const hashedPassword = await securePassword(password);
+
     const token = jwt.sign(
       { name, email, phone, hashedPassword, image },
       String(dev.app.jwtSecretKey),
@@ -38,6 +39,7 @@ const registerUser = async (req, res, next) => {
     };
 
     sendEmailWithNodeMailer(emailData);
+
     sendResponse(
       res,
       200,

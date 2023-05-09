@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-
 import { toast } from "react-toastify";
 import { loginUser } from "../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,11 @@ const Login = () => {
         onChange={(event) => setPassword(event.target.value)}
       />
 
-      <button type="submit">Login</button>
+      <Stack spacing={2} direction="row">
+        <Button variant="outlined" type="sumbit">
+          Login
+        </Button>
+      </Stack>
     </form>
   );
 };

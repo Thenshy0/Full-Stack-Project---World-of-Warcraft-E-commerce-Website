@@ -31,3 +31,17 @@ code {
 .user_img {
   width: 10rem;
 }
+
+.user-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 0 20%;
+}
+.user-card {
+  padding: 1rem;
+}
+.user {
+  background-color: rgb(182, 180, 184);
+}

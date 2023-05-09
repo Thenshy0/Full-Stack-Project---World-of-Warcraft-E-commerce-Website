@@ -15,8 +15,10 @@ const Users = () => {
   return (
     <div>
       <h1>Users</h1>
-      {users.length > 0 &&
-        users.map((user) => <User key={user._id} user={user} />)}
+      <div className="user-cards">
+        {users.length > 0 &&
+          users.map((user) => <User key={user._id} user={user} />)}
+      </div>
     </div>
   );
 };

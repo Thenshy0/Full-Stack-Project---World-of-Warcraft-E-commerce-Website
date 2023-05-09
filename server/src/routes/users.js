@@ -1,14 +1,11 @@
 const {
   registerUser,
   verifyEmail,
-  loginUser,
-  logoutUser,
   userProfile,
   deleteUser,
   updateUser,
   forgetPassword,
   resetPassword,
-  refreshToken,
 } = require("../controllers/users");
 const userRouter = require("express").Router();
 const { isLoggedIn, isLoggedOut } = require("../middlewares/auth");
