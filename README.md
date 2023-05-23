@@ -1,21 +1,31 @@
-# User-Admin-management-API
+# Full Stack Project - World of Warcraft E-commerce Website
 
-This project is a user-management API for managing user-admin relationships using token-based authentication. The purpose of this API is to allow administrators to create and manage users, as well as manage the roles and permissions of those users.
+This project is a full-stack application that serves as an e-commerce website based on the popular game World of Warcraft. The website allows users to browse and purchase sets from the game, showcasing a variety of armor sets and accessories.
 
 ## Features
 
-- Token-based authentication using JSON Web Tokens (JWT)
-- Secure password storage using bcrypt
-- CRUD (Create, Read, Update, Delete) operations for users and roles
+- User Registration and Authentication: Users can create accounts, log in, and securely authenticate their sessions using token-based authentication.
+- Product Catalog: The website provides a comprehensive catalog of armor sets and accessories available for purchase.
+- Shopping Cart: Users can add items to their shopping cart, view the cart contents, and proceed to the checkout process.
+- Role-based Access Control: Administrators have special permissions to manage users, roles, and product inventory.
+- Responsive Design: The website is designed to be responsive, providing an optimal user experience across different devices.
 
-## Technologies Used for backend
+## Technologies Used
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT
-- bcrypt
-- nodemailer
+### Backend
 
-## Technologies Used for frontend
+- Node.js: Server-side JavaScript runtime environment.
+- Express.js: Web application framework for building APIs.
+- MongoDB: NoSQL database for storing user and product data.
+- Mongoose: Object Data Modeling (ODM) library for MongoDB.
+- JSON Web Tokens (JWT): Token-based authentication mechanism.
+- bcrypt: Library for secure password hashing and storage.
+- nodemailer: Node.js module for sending emails.
+
+### Frontend
+
+- React.js: JavaScript library for building user interfaces.
+- Redux: State management library for managing application state.
+- Axios: HTTP client for making API requests.
+- React Material UI: Component library for designing responsive and visually appealing UI.
+- CSS: Styling and layout of the website.

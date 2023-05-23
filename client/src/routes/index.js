@@ -29,60 +29,65 @@ const Index = () => {
   return (
     <BrowserRouter>
       <Navbar />
-      <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Home />} />
+      <div style={{ minHeight: "100vh" }}>
+        {" "}
+        <Routes>
+          <Route path="/" element={<Home />} />
 
-        {isLoggedIn ? (
-          // LOGGEDIN
-          <>
-            {/* ADMIN */}
-            {isAdmin === 1 && (
-              <>
-                {" "}
-                <Route path="/users" element={<Users />} />
-                <Route path="/products-admin" element={<ProductsAdmin />} />
-                <Route path="/view-user/:id" element={<SingleUser />} />
-                <Route
-                  path="/view-product-admin/:id"
-                  element={<SingleProduct />}
-                />
-                <Route
-                  path="/view-categories-admin/:id"
-                  element={<SingleCategory />}
-                />
-                <Route
-                  path="/create-category-admin"
-                  element={<CreateCategory />}
-                />
-                <Route
-                  path="/create-product-admin"
-                  element={<CreateProduct />}
-                />
-                <Route path="/view-product/:id" element={<Productdetails />} />
-              </>
-            )}
-            {/* USER */}
-            <Route path="/user-profile/:id" element={<Profile />} />
-            <Route path="/update-user/:id" element={<UpdateUser />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/view-product/:id" element={<Productdetails />} />
-          </>
-        ) : (
-          // LOGGEDOUT
-          <>
-            <Route path="/login-user" element={<Login />} />
-            <Route path="/api/users/activate/:token" element={<Activate />} />
-            <Route
-              path="/api/users/reset-password/:token"
-              element={<ResetPassword />}
-            />
-            <Route path="/register-user" element={<RegisterUser />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/view-product/:id" element={<Productdetails />} />
-          </>
-        )}
-      </Routes>
+          {isLoggedIn ? (
+            // LOGGEDIN
+            <>
+              {/* ADMIN */}
+              {isAdmin === 1 && (
+                <>
+                  {" "}
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/products-admin" element={<ProductsAdmin />} />
+                  <Route path="/view-user/:id" element={<SingleUser />} />
+                  <Route
+                    path="/view-product-admin/:id"
+                    element={<SingleProduct />}
+                  />
+                  <Route
+                    path="/view-categories-admin/:id"
+                    element={<SingleCategory />}
+                  />
+                  <Route
+                    path="/create-category-admin"
+                    element={<CreateCategory />}
+                  />
+                  <Route
+                    path="/create-product-admin"
+                    element={<CreateProduct />}
+                  />
+                  <Route
+                    path="/view-product/:id"
+                    element={<Productdetails />}
+                  />
+                </>
+              )}
+              {/* USER */}
+              <Route path="/user-profile/:id" element={<Profile />} />
+              <Route path="/update-user/:id" element={<UpdateUser />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/view-product/:id" element={<Productdetails />} />
+            </>
+          ) : (
+            // LOGGEDOUT
+            <>
+              <Route path="/login-user" element={<Login />} />
+              <Route path="/api/users/activate/:token" element={<Activate />} />
+              <Route
+                path="/api/users/reset-password/:token"
+                element={<ResetPassword />}
+              />
+              <Route path="/register-user" element={<RegisterUser />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/view-product/:id" element={<Productdetails />} />
+            </>
+          )}
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 };

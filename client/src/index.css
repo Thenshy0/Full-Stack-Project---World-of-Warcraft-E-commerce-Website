@@ -7,7 +7,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #202737;
-  margin: 1rem 0rem;
+
+  height: 100%;
 }
 
 code {
@@ -128,7 +129,6 @@ button:hover {
 
 .login-card {
   display: flex;
-
   justify-content: center;
   align-items: center;
   margin-top: 6rem;
@@ -176,6 +176,7 @@ button:hover {
   justify-content: flex-end;
   border-radius: 0.3rem;
   margin: 0rem 2rem;
+  margin-top: 1rem;
   box-shadow: inset 2px 2px 25px rgba(0, 0, 0, 0.5);
 }
 
@@ -361,6 +362,7 @@ button:hover {
 }
 /* Footer */
 .footer {
+  margin-top: 5rem;
   padding: 20px;
   box-shadow: inset 2px 2px 50px rgba(0, 0, 0, 0.5);
 }
