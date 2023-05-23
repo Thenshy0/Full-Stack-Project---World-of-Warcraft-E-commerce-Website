@@ -20,6 +20,7 @@ import SingleCategory from "../components/Admin/SingleCategory";
 import CreateCategory from "../pages/Admin/CreateCategory";
 import CreateProduct from "../pages/Admin/CreateProduct";
 import Productdetails from "../pages/Productdetails";
+import Footer from "../layout/Footer";
 
 const Index = () => {
   const isLoggedIn = useSelector((state) => state.userR.isLoggedIn);
@@ -88,6 +89,7 @@ const Index = () => {
           )}
         </Routes>
       </div>
+      <Footer/>
     </BrowserRouter>
   );
 };

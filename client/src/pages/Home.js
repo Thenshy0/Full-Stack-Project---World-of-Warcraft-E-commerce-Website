@@ -74,10 +74,6 @@ const Home = () => {
           allowfullscreen
         ></iframe>
       </div>
-
-      <div>
-        <Footer />
-      </div>
     </div>
   );
 };

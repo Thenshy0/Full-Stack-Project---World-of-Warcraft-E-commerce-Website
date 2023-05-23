@@ -26,14 +26,14 @@ const loginUser = async (req, res, next) => {
       throw createError(400, "This account is banned, please contact an admin");
 
     //creating a access token
-    const accessToken = jwt.sign(
+    const token = jwt.sign(
       {
-        password,
-        email,
+        password: password,
+        email: email,
       },
       dev.app.jwtAuthorisationKey,
       {
-        expiresIn: "10m",
+        expiresIn: "30m",
       }
     );
 
@@ -46,12 +46,12 @@ const loginUser = async (req, res, next) => {
     );
 
     // Send token to client
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-      secure: false,
-      sameSite: "none",
-    });
+    // res.cookie("jwt", refreshToken, {
+    //   httpOnly: true,
+    //   maxAge: 24 * 60 * 60 * 1000,
+    //   secure: false,
+    //   sameSite: "none",
+    // });
     sendResponse(res, 200, "Login successful", {
       user: {
         id: user._id,
@@ -61,7 +61,7 @@ const loginUser = async (req, res, next) => {
         phone: user.phone,
         image: user.image,
         isAdmin: user.is_admin,
-        accessToken: accessToken,
+        accessToken: token,
       },
     });
   } catch (error) {

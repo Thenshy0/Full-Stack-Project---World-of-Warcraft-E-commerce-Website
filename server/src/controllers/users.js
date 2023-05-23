@@ -25,7 +25,7 @@ const registerUser = async (req, res, next) => {
     const token = jwt.sign(
       { name, userName, email, phone, hashedPassword, image },
       String(dev.app.jwtSecretKey),
-      { expiresIn: "10min" }
+      { expiresIn: "30min" }
     );
 
     // prepare the email

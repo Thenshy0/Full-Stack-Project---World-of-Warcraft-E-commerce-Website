@@ -362,7 +362,7 @@ button:hover {
 }
 /* Footer */
 .footer {
-  margin-top: 5rem;
+  margin-top: 6rem;
   padding: 20px;
   box-shadow: inset 2px 2px 50px rgba(0, 0, 0, 0.5);
 }
@@ -390,4 +390,48 @@ button:hover {
 
 a:hover {
   color: #cbb279;
+}
+
+@media screen and (max-width: 768px) {
+  .main-card {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 3rem;
+    margin: 6rem 1rem;
+    margin-bottom: 10rem;
+  }
+  .home-card:hover {
+    transform: none;
+  }
+  .main-h2 {
+    font-size: 2rem;
+    padding: 1rem 2rem;
+  }
+  /* .category-cards {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0rem;
+  }
+  .user-card {
+    margin: -5rem;
+    margin-top: 3rem;
+    width: 4rem;
+  } */
+  .class-logo {
+  }
+  .searchBar {
+    width: 80%;
+  }
+
+  /* Adjust other styles as needed */
+}
+@media screen and (max-width: 480px) {
+  .main-h2 {
+    font-size: 3rem;
+  }
+  .main-card {
+    margin: 2rem 1rem;
+  }
+
+  /* Adjust other styles as needed */
 }

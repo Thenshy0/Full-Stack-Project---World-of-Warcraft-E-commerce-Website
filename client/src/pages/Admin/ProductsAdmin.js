@@ -175,7 +175,7 @@ const ProductsAdmin = () => {
         </Tooltip>
       </div>
 
-      <div className="product-card">
+      <div className="product-card" style={{ marginBottom: "4rem" }}>
         {products.length > 0 ? (
           products.map((product) => (
             <Card sx={{ minWidth: 320 }}>

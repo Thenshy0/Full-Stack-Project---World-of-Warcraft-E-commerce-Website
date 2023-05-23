@@ -35,7 +35,7 @@ const Product = (props) => {
             variant="rounded"
             alt={productImageUrl}
           ></Avatar>
-          <div className="category-logo" style={{ right: 1, top: -2 }}>
+          <div className="category-logo" style={{ right: 2, top: 1 }}>
             <Avatar
               src={categoryImageUrl}
               sx={{ width: 40, height: 40 }}
