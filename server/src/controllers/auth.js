@@ -56,9 +56,11 @@ const loginUser = async (req, res, next) => {
       user: {
         id: user._id,
         name: user.name,
+        userName: user.userName,
         email: user.email,
         phone: user.phone,
         image: user.image,
+        isAdmin: user.is_admin,
         accessToken: accessToken,
       },
     });
@@ -78,27 +80,35 @@ const refreshToken = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (req.cookies?.jwt) {
-      // Destructuring refreshToken from cookie
       const refreshToken = req.cookies.jwt;
 
-      // Verifying refresh token
       jwt.verify(refreshToken, dev.app.jwtRefreshKey, (err, decoded) => {
-        if (err) throw createError(406, "Unauthorized");
-        else {
-          // Correct token we send a new access token
+        if (err) {
+          if (err.name === "TokenExpiredError") {
+            throw createError(401, "Refresh token expired");
+          } else {
+            throw createError(401, "Invalid refresh token");
+          }
+        } else {
+          // Extract necessary user information from the decoded token, e.g., user ID or email
+          const { email } = decoded;
+
+          // Generate a new access token
           const accessToken = jwt.sign(
             {
               email,
-              password,
             },
             dev.app.jwtAuthorisationKey,
             {
               expiresIn: "10m",
             }
           );
+
           return res.json({ accessToken });
         }
       });
+    } else {
+      throw createError(401, "Refresh token not found");
     }
   } catch (error) {
     next(error);
@@ -153,9 +163,11 @@ const loginAdmin = async (req, res, next) => {
       user: {
         id: user._id,
         name: user.name,
+        userName: user.userName,
         email: user.email,
         phone: user.phone,
         image: user.image,
+        isAdmin: user.is_admin,
         accessToken: accessToken,
       },
     });

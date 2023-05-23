@@ -7,27 +7,25 @@ const Category = require("../models/category");
 const addProduct = async (req, res, next) => {
   try {
     const { name, description, price, category } = req.body;
-
-    const selectedCategory = await Category.findOne({
-      $or: [{ name: category }, { slug: category }],
-    });
-
-    if (!selectedCategory) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid category" });
-    }
+    const image = req.file && req.file.filename;
+    const selectedCategory = await Category.findOne({ name: category });
+    if (!selectedCategory) throw createError(404, "Invalid category");
 
     const isExist = await Product.findOne({ name: name });
     if (isExist)
       throw createError(400, "Product with this name is already exist");
-
+    if (!name || !description || !price || !image || !category)
+      throw createError(
+        400,
+        "Please fill up every field to be able to create a product"
+      );
     const product = new Product({
-      name,
+      name: name,
       slug: slugify(name),
-      description,
+      description: description,
       price: Number(price),
-      category: selectedCategory.name,
+      category: await Category.findOne({ name: category }),
+      image: image,
     });
 
     await product.save();
@@ -50,16 +48,26 @@ const getProduct = async (req, res, next) => {
 };
 const getAllProducts = async (req, res, next) => {
   try {
-    const { page = 1, limit = 2 } = req.query;
-    const products = await Product.find()
-      .populate("category")
-      .skip((page - 1) * limit)
-      .limit(limit);
-    if (!products) {
-      throw createError(404, "No products at all, please add some");
+    const { search = "", page = 1, category } = req.query;
+    const query = {};
+    if (category) {
+      query.category = category;
     }
-    const count = await Product.find().countDocuments();
-    sendResponse(res, 200, "Return all products", {
+
+    if (search) {
+      query.name = { $regex: search, $options: "i" };
+    }
+    const products = await Product.find(query)
+
+      .populate("category")
+      .skip(page - 1);
+    // .limit(limit);
+
+    if (!products) {
+      throw createError(404, "No products found");
+    }
+    const count = await Product.countDocuments(query);
+    sendResponse(res, 200, "All products retrieved", {
       total: count,
       products: products,
     });
@@ -69,12 +77,18 @@ const getAllProducts = async (req, res, next) => {
 };
 const updateProduct = async (req, res, next) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const { id } = req.params;
+    const product = await Product.findById(id);
     if (!product) {
-      throw createError(404, "No product find by this ID");
+      throw createError(400, "Product not found");
     }
+    const { name, description, price } = req.body;
+    if (name) product.name = name;
+    if (description) product.description = description;
+    if (price) product.price = price;
+    if (req.file) product.image = req.file.filename;
+
+    await product.save();
     sendResponse(res, 200, "Product updated successfully", product);
   } catch (error) {
     next(error);

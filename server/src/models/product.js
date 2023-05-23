@@ -32,6 +32,14 @@ const productSchema = new Schema(
       index: true,
       sparse: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    image: {
+      type: String,
+      default: "../../public/images/products/Acanist-Regalia.png",
+    },
   },
   { timestamps: true }
 );

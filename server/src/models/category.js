@@ -19,6 +19,14 @@ const categorySchema = new Schema(
       index: true,
       sparse: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    image: {
+      type: String,
+      default: "../../public/images/categories/Mage.png",
+    },
   },
   { timestamps: true }
 );

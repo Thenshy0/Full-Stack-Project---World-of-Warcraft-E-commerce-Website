@@ -15,8 +15,6 @@ const cors = require("cors");
 const createError = require("http-errors");
 const rateLimit = require("express-rate-limit");
 
-const slugify = require("slugify");
-
 const app = express();
 
 const PORT = dev.app.serverPort;

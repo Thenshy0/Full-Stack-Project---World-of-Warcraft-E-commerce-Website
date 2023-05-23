@@ -12,25 +12,42 @@ const getAllusers = async (req, res, next) => {
     const { page = 1, limit = 10 } = req.query;
     const users = await User.find({
       is_admin: 0,
+
       $or: [
-        { name: { $regex: ".*" + search + ".*", $options: "i" } },
+        { userName: { $regex: ".*" + search + ".*", $options: "i" } },
         { email: { $regex: ".*" + search + ".*", $options: "i" } },
         { phone: { $regex: ".*" + search + ".*", $options: "i" } },
       ],
     })
-      .sort({ name: 1 })
+      .sort({ userName: 1 })
+      .limit(limit)
+      .skip((page - 1) * limit);
+
+    const admins = await User.find({
+      is_admin: 1,
+      $or: [
+        { userName: { $regex: ".*" + search + ".*", $options: "i" } },
+        { email: { $regex: ".*" + search + ".*", $options: "i" } },
+        { phone: { $regex: ".*" + search + ".*", $options: "i" } },
+      ],
+    })
+      .sort({ userName: 1 })
       .limit(limit)
       .skip((page - 1) * limit);
 
     const count = await User.find({ is_admin: 0 }).countDocuments();
+    const countadmin = await User.find({ is_admin: 1 }).countDocuments();
     sendResponse(res, 200, "Return all users", {
-      total: count,
+      totalusers: count,
+      admin: countadmin,
       users: users,
+      admins: admins,
     });
   } catch (error) {
     next(error);
   }
 };
+
 const deleteUserbyAdmin = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -44,19 +61,42 @@ const deleteUserbyAdmin = async (req, res, next) => {
 };
 const updateUserByAdmin = async (req, res, next) => {
   try {
-    const hashedPassword = await securePassword(req.body.password);
-    const userData = await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        ...req.body,
-        password: hashedPassword,
-        image: req.file,
-      },
-      { new: true }
-    );
-    if (!userData) throw createError(400, "Something went wrong, try again");
-    await userData.save();
-    sendResponse(res, 200, `User was updated by admin`);
+    const { id } = req.params;
+
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      throw createError(400, "User not found");
+    }
+
+    const { name, email, userName, password, phone, is_admin, isBanned } =
+      req.body;
+
+    if (name) existingUser.name = name;
+
+    if (email) existingUser.email = email;
+
+    if (is_admin) existingUser.is_admin = is_admin;
+    if (isBanned) existingUser.isBanned = isBanned;
+
+    if (userName) existingUser.userName = userName;
+
+    if (phone) existingUser.phone = phone;
+
+    if (password) existingUser.password = await securePassword(password);
+
+    if (req.file) existingUser.image = req.file.filename;
+
+    const existingUserEmail = await User.findOne({ email });
+    if (existingUserEmail && existingUserEmail._id.toString() !== id) {
+      throw createError(400, "Email address already exists in our database");
+    }
+    const existingUserName = await User.findOne({ userName });
+    if (existingUserName && existingUserName._id.toString() !== id) {
+      throw createError(400, "User name already exists in our database");
+    }
+    await existingUser.save();
+
+    sendResponse(res, 200, "User was updated by admin");
   } catch (error) {
     next(error);
   }

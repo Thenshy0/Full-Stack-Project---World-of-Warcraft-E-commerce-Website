@@ -17,7 +17,7 @@ userRouter.post("/verify-email", verifyEmail);
 userRouter.delete("/delete/:id", isLoggedIn, deleteUser); // isLoggedIn
 userRouter.get("/profile/:id", userProfile); // isLoggedIn
 userRouter.put("/update/:id", upload.single("image"), updateUser); // isLoggedIn
-userRouter.post("/forget-password", isLoggedOut, forgetPassword); //isLoggedOut
+userRouter.post("/forgot-password", isLoggedOut, forgetPassword); //isLoggedOut
 userRouter.post("/reset-password", isLoggedOut, resetPassword); //isLoggedOut
 
 userRouter.get("*", (req, res) => {

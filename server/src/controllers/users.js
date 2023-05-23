@@ -11,10 +11,10 @@ const { sendResponse } = require("../helpers/responseHandler");
 
 const registerUser = async (req, res, next) => {
   try {
-    const { name, email, phone, password } = req.body;
+    const { name, userName, email, phone, password } = req.body;
     const user = await User.findOne({ email: email });
     if (user) throw createError(400, "User with this email is already exist");
-    if (!name || !email || !phone || !password)
+    if (!name || !email || !phone || !password || !userName)
       throw createError(404, "Name, email, phone or password is missing");
     if (password.length < 6)
       throw createError(404, "Minimum length for password is 6 characters");
@@ -23,7 +23,7 @@ const registerUser = async (req, res, next) => {
     const hashedPassword = await securePassword(password);
 
     const token = jwt.sign(
-      { name, email, phone, hashedPassword, image },
+      { name, userName, email, phone, hashedPassword, image },
       String(dev.app.jwtSecretKey),
       { expiresIn: "10min" }
     );
@@ -62,13 +62,14 @@ const verifyEmail = async (req, res, next) => {
         if (err) throw createError(401, "Token is expired");
 
         //   decoded the data
-        const { name, email, hashedPassword, phone, image } = decoded;
+        const { name, userName, email, hashedPassword, phone, image } = decoded;
         const isExist = await User.findOne({ email: email });
         if (isExist)
           throw createError(400, "User with this email is already exist");
         //   create the user
         const newUser = new User({
           name: name,
+          userName: userName,
           email: email,
           password: hashedPassword,
           phone: phone,
@@ -114,16 +115,48 @@ const deleteUser = async (req, res, next) => {
 };
 const updateUser = async (req, res, next) => {
   try {
+    const { email, userName } = req.body;
+    const { id } = req.params;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser && existingUser._id.toString() !== id) {
+      throw createError(400, "Email address already exists in our database");
+    }
+    const existingUserName = await User.findOne({ userName });
+    if (existingUserName && existingUserName._id.toString() !== id) {
+      throw createError(400, "User name already exists in our database");
+    }
+    let imagePath = null;
+
+    if (req.file) {
+      imagePath = req.file && req.file.filename;
+    }
+
     const hashedPassword = await securePassword(req.body.password);
-    const userData = await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        ...req.body,
-        password: hashedPassword,
-        image: req.file,
-      },
-      { new: true }
-    );
+
+    const updatedFields = {};
+
+    if (req.body.name) {
+      updatedFields.name = req.body.name;
+    }
+
+    if (req.body.email) {
+      updatedFields.email = req.body.email;
+    }
+
+    if (req.body.userName) {
+      updatedFields.userName = req.body.userName;
+    }
+    if (req.body.phone) {
+      updatedFields.phone = req.body.phone;
+    }
+    if (imagePath) {
+      updatedFields.image = imagePath;
+    }
+    const userData = await User.findByIdAndUpdate(id, updatedFields, {
+      new: true,
+    });
+
     if (!userData) throw createError(400, "User was not updated");
     await userData.save();
     sendResponse(res, 200, "User was updated");

@@ -1,72 +1,128 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
-
-import Logout from "../components/Logout";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, setUser } from "../features/userSlice";
-import { profileRequest, refreshTokenRequest } from "../services/UserService";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { profileRequest } from "../services/UserService";
+import { useSelector } from "react-redux";
+import {
+  Avatar,
+  Card,
+  CardContent,
+  Divider,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  // const location = useLocation();
-  // const userData = location.state;
-  // console.log(userData);
-  // console.log(userData.id);
+  const user = useSelector((state) => state.userR.user);
+  const { id } = useParams();
+  const [profile, setProfile] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchProfile = async () => {
+    try {
+      const result = await profileRequest(id);
+      setProfile(result.data.user);
+      setLoading(false);
+    } catch {
+      setError(error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    dispatch(fetchUser());
-    console.log("asd");
-  }, [dispatch]);
-  const { user, error, loading } = useSelector((state) => state.userR);
-  console.log(user);
-  // const handleRefresh = useCallback(async () => {
+    fetchProfile();
+  }, []);
+
+  // const handleRefresh = async () => {
   //   try {
-  //     const res = await refreshTokenRequest();
-  //     dispatch(setUser(res.data));
-  //     console.log(res.data);
+  //     const refreshToken = getRefreshToken();
+
+  //     if (!refreshToken) {
+  //       throw new Error("Refresh token not found");
+  //     }
+  //     if (refreshToken) {
+  //       const response = await refreshTokenRequest(refreshToken);
+  //       const { accessToken } = response.data;
+  //     } else {
+  //       throw new Error("Refresh token not found");
+  //     }
   //   } catch (error) {
   //     console.log(error);
   //   }
-  // }, [dispatch]);
-
+  // };
+  // setInterval(handleRefresh, 1000 * 60);
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     handleRefresh();
-  //   }, 1000 * 10);
+  //   }, 1000 * 20);
   //   return () => clearInterval(interval);
-  // }, [dispatch, handleRefresh]);
+  // }, [handleRefresh]);
 
-  // const imageUrl = "http://127.0.0.1:8080/public/images/users/" + user.image;
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+  const imageUrl = "http://127.0.0.1:8080/public/images/users/" + profile.image;
   return (
     <div>
-      <h2>Profile</h2>
-      <div>
-        {/* <img src={imageUrl} className="user_img" alt={user.name}></img> */}
-        <h3>Name: {user}</h3>
-        <p>Email: {user}</p>
-        <p>Phone: {user}</p>
-        <p>Password: ******</p>
-        <Link to="/update-user">
-          <button>Update</button>
-        </Link>
-        <button>Deactivate Account</button>
-        <Logout />
-      </div>
+      {profile ? (
+        <div className="single-user-card">
+          <Card sx={{ minWidth: 275 }}>
+            {" "}
+            {profile.is_admin === 1 ? (
+              <div className="card-bar">Admin Profile</div>
+            ) : (
+              <div className="card-bar">User Profile</div>
+            )}
+            <CardContent className="user">
+              <Stack>
+                <Avatar
+                  src={imageUrl}
+                  className="user_img"
+                  alt={profile.name}
+                  sx={{ width: 100, height: 100, marginLeft: 13 }}
+                ></Avatar>
+                <br></br>
+                <Divider />
+                <br></br>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  User name: {profile.userName}
+                </Typography>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  Full name: {profile.name}
+                </Typography>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  Email: {profile.email}
+                </Typography>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  Phone: {profile.phone}
+                </Typography>
+              </Stack>
+              <br></br>
+              <Tooltip title="Settings">
+                <Link to={`/update-user/${user.id}`}>
+                  <SettingsIcon
+                    aria-haspopup="true"
+                    sx={{ fontSize: 30, paddingLeft: 1, color: "#202737" }}
+                  />
+                </Link>
+              </Tooltip>
+            </CardContent>
+          </Card>
+        </div>
+      ) : (
+        <p>Profile not found</p>
+      )}
     </div>
   );
 };
 
 export default Profile;
-// const handleRefresh = useCallback(async () => {
-//   try {
-//     const refreshToken = await refreshTokenRequest();
-//     console.log(refreshToken);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }, []);
-// useEffect(() => {
-//   const interval = setInterval(() => {
-//     handleRefresh();
-//   }, 1000 * 20);
-//   return () => clearInterval(interval);
-// }, [handleRefresh]);

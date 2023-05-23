@@ -1,7 +1,14 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { profileRequest } from "../services/UserService";
-
+const getUserDataFromLocalStorage = () => {
+  const userData = localStorage.getItem("user");
+  try {
+    return userData ? JSON.parse(userData) : null;
+  } catch (error) {
+    console.error("Error parsing user data from localStorage:", error);
+    return null;
+  }
+};
 const getLocalStoreItem = () => {
   if (localStorage.getItem("loginStatus") === null) {
     return false;
@@ -10,48 +17,60 @@ const getLocalStoreItem = () => {
   }
 };
 
-export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
-  const response = await profileRequest();
-});
-
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: [],
+    user: getUserDataFromLocalStorage(),
     error: "",
     loading: true,
     isLoggedIn: getLocalStoreItem(),
+    userId: null,
+    is_admin: 0,
   },
   reducers: {
-    login: (state) => {
+    login: (state, action) => {
       localStorage.setItem("loginStatus", "true");
+      localStorage.setItem("user", JSON.stringify(action.payload));
+      console.log(action.payload.refreshToken);
       state.isLoggedIn = getLocalStoreItem();
+      state.user = {
+        ...action.payload,
+        image: action.payload.image,
+      };
+      console.log(action.payload);
+      state.is_admin = action.payload.is_admin;
     },
+    updateUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+      if (action.payload.image) {
+        state.user.image = action.payload.image;
+      }
+      localStorage.setItem("user", JSON.stringify(state.user));
+    },
+
+    deleteUser: (state, action) => {
+      const userId = action.payload;
+      if (state.user && state.user.id === userId) {
+        state.user = null;
+      }
+    },
+
+    updateUserPicture: (state, action) => {
+      state.user.imageDataURL = action.payload;
+      localStorage.setItem("user", JSON.stringify(state.user));
+    },
+
     logout: (state) => {
       localStorage.setItem("loginStatus", "false");
+      localStorage.removeItem("user");
+
       state.isLoggedIn = getLocalStoreItem();
+      state.user = null;
+      state.is_admin = 0;
     },
-    setUser: (state, action) => {
-      state.user = action.payload;
-    },
-  },
-  extraReducers(builder) {
-    builder
-      .addCase(fetchUser.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.error = "";
-      })
-      .addCase(fetchUser.rejected, (state, action) => {
-        state.loading = false;
-        state.user = {};
-        state.error = action.error.message || "Something went wrong";
-      });
   },
 });
 
-export const { login, logout, updateRender, setUser } = userSlice.actions;
+export const { login, logout, updateUser, updateUserPicture, deleteUser } =
+  userSlice.actions;
 export default userSlice.reducer;
