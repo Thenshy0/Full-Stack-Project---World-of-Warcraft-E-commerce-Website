@@ -12,14 +12,21 @@ const { sendResponse } = require("../helpers/responseHandler");
 const registerUser = async (req, res, next) => {
   try {
     const { name, userName, email, phone, password } = req.body;
+    const image = req.file && req.file.filename;
     const user = await User.findOne({ email: email });
     if (user) throw createError(400, "User with this email is already exist");
     if (!name || !email || !phone || !password || !userName)
-      throw createError(404, "Name, email, phone or password is missing");
+      throw createError(
+        404,
+        "Full name,user name, email, phone or password is missing"
+      );
+
     if (password.length < 6)
       throw createError(404, "Minimum length for password is 6 characters");
+    const isUserNameExist = await User.findOne({ userName: userName });
+    if (isUserNameExist)
+      throw createError(400, "User with this user name is already exist");
 
-    const image = req.file && req.file.filename;
     const hashedPassword = await securePassword(password);
 
     const token = jwt.sign(
@@ -64,9 +71,11 @@ const verifyEmail = async (req, res, next) => {
         //   decoded the data
         const { name, userName, email, hashedPassword, phone, image } = decoded;
         const isExist = await User.findOne({ email: email });
-        if (isExist)
-          throw createError(400, "User with this email is already exist");
+        // if (isExist)
+        //   throw createError(400, "User with this email is already exist");
+
         //   create the user
+
         const newUser = new User({
           name: name,
           userName: userName,

@@ -73,16 +73,18 @@ const CreateUser = () => {
     <div>
       {isRegistered ? (
         <div className="email-alert">
-          <Stack sx={{ width: "20%" }} spacing={2}>
-            <Alert
-              className="email-alert"
-              variant="outlined"
-              severity="success"
-              sx={{ bgcolor: "#cbb279", marginTop: 6 }}
-            >
-              {message}
-            </Alert>
-          </Stack>
+          {message && (
+            <Stack sx={{ width: "20%" }} spacing={2}>
+              <Alert
+                className="email-alert"
+                variant="outlined"
+                severity="success"
+                sx={{ bgcolor: "#cbb279", marginTop: 6 }}
+              >
+                {message}
+              </Alert>
+            </Stack>
+          )}
         </div>
       ) : (
         <div>
