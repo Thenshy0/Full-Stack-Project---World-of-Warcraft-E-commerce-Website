@@ -2,10 +2,5 @@
   "version": 2,
   "name": "e-commerce-app",
   "builds": [{ "src": "src/index.js", "use": "@vercel/node" }],
-  "routes": [
-    { "src": "/(.*)", "dest": "src/index.js" },
-    {
-      "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
-    }
-  ]
+  "routes": [{ "src": "/(.*)", "dest": "src/index.js" }]
 }
