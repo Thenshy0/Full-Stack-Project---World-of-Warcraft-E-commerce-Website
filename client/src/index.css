@@ -339,6 +339,7 @@ button:hover {
   justify-content: center;
   align-items: center;
   padding-top: 0.5rem;
+  margin-top: 10rem;
   /*  */
 }
 .home-card {
@@ -349,7 +350,11 @@ button:hover {
   border: solid #ab8f5c;
   transition: transform 0.8s ease-in-out;
 }
-
+.cover-card {
+  background-image: url("https://i.postimg.cc/W1Jx3d5s/Screenshot-460.png");
+  background-size: cover;
+  background-position: center;
+}
 .home-card:hover {
   transform: scale(1.1);
   box-shadow: 5px 5px 30px 10px #000000;
@@ -359,6 +364,26 @@ button:hover {
   justify-content: space-around;
   align-items: center;
   margin: 6rem 5rem;
+}
+.home-cover-pic {
+  background-image: url("https://i.postimg.cc/zGqPJLZb/476552.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  margin-top: -4rem;
+  margin-bottom: 7rem;
+  box-shadow: 0px 20px 150px 10px #000000;
+  position: relative;
+}
+.home-cover-pic-card {
+  position: absolute;
+  top: 40rem;
+  left: 60rem;
+}
+.home-cover-pic-card-two {
+  position: absolute;
+  top: 5rem;
+  left: 80rem;
 }
 /* Footer */
 .footer {
