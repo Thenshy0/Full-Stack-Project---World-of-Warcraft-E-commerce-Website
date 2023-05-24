@@ -4,9 +4,10 @@
   "builds": [{ "src": "src/index.js", "use": "@vercel/node" }],
   "routes": [
     { "src": "/(.*)", "dest": "src/index.js" },
-    { "src": "/(.*)", "dest": "src/routes/product.js" },
-    { "src": "/(.*)", "dest": "src/routes/users.js" },
-    { "src": "/(.*)", "dest": "src/routes/admin.js" },
-    { "src": "/(.*)", "dest": "src/routes/category.js" }
+    { "src": "/api/product(.*)", "dest": "src/routes/product.js" },
+    { "src": "/api/users(.*)", "dest": "src/routes/users.js" },
+    { "src": "/api/admin(.*)", "dest": "src/routes/admin.js" },
+    { "src": "/api/category(.*)", "dest": "src/routes/category.js" },
+    { "src": "/api/auth(.*)", "dest": "src/routes/auth.js" }
   ]
 }
