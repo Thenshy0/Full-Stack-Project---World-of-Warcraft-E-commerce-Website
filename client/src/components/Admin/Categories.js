@@ -1,6 +1,5 @@
 import React from "react";
-import Avatar from "@mui/material/Avatar";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Avatar } from "@mui/material";
 
 const Categories = (props) => {
   const { category, selectedCategory, onCategoryClick } = props;

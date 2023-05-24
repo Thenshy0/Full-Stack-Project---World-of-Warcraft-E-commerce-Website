@@ -1,14 +1,7 @@
 import React from "react";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import { Avatar, Stack, Typography, Divider, Tooltip } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import { Link } from "react-router-dom";
-import { Divider, Tooltip } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import DeleteProduct from "./DeleteProduct";
 
 const Product = (props) => {
   const { name, description, price, image, createdAt, updatedAt, _id } =

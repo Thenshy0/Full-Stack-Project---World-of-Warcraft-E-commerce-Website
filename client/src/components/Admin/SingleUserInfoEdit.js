@@ -4,15 +4,19 @@ import {
   profileRequest,
   updateUserRequestbyAdmin,
 } from "../../services/UserService";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import {
+  Avatar,
+  Stack,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Tooltip,
+  Alert,
+} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import { Link } from "react-router-dom";
 import BlockIcon from "@mui/icons-material/Block";
-import { Alert, Divider, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { updateUser } from "../../features/userSlice";

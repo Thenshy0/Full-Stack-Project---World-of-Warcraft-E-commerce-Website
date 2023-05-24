@@ -2,7 +2,6 @@ import { Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import { useDispatch } from "react-redux";
 import { deleteProductReducer } from "../../features/productSlice";
 import { deleteProduct } from "../../services/ProductService";

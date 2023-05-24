@@ -1,12 +1,15 @@
 import React from "react";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import {
+  Avatar,
+  Stack,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Tooltip,
+} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import { Link } from "react-router-dom";
-import { Divider, Tooltip } from "@mui/material";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 const Admin = (props) => {

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import {
+  Avatar,
+  Stack,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Tooltip,
+  Alert,
+} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import { Link } from "react-router-dom";
-import { Alert, Divider, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 import {
