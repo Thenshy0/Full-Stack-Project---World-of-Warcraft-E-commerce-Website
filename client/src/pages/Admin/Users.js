@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getAllUsersRequest } from "../../services/UserService";
 import User from "../../components/User";
 import Admin from "../../components/Admin/Admin";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+
+import { Pagination, Stack } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 

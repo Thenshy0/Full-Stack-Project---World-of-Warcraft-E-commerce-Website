@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Product from "../components/Product";
 import Categories from "../components/Categories";
 import { getAllProducts } from "../services/ProductService";
 import { getAllCategories } from "../services/CategoryService";
 import { Alert, Avatar, Tooltip } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);

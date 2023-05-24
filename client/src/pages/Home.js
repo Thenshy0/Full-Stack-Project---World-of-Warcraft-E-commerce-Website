@@ -1,6 +1,5 @@
 import React from "react";
 import DesignCard from "../components/DesignCard";
-import Footer from "../layout/Footer";
 import { Card, CardContent, Typography } from "@mui/material";
 
 const Home = () => {

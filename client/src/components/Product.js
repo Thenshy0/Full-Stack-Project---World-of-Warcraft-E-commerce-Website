@@ -1,12 +1,15 @@
 import React from "react";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import SettingsIcon from "@mui/icons-material/Settings";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+
+import {
+  Avatar,
+  Stack,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Tooltip,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import { Divider, Tooltip } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 const Product = (props) => {

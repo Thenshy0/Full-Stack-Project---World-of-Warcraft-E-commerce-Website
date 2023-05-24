@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { profileRequest, updateUserRequest } from "../services/UserService";
+import { updateUserRequest } from "../services/UserService";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 

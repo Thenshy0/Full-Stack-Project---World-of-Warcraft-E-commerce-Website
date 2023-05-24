@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+import { useParams } from "react-router-dom";
+import {
+  Avatar,
+  Stack,
+  Typography,
+  Card,
+  CardContent,
+  Alert,
+  Divider,
+  Tooltip,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import { Alert, Divider, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch } from "react-redux";
 import { SingleProductRequest } from "../services/ProductService";
 
 const Productdetails = () => {

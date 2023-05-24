@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-import CreateIcon from "@mui/icons-material/Create";
 import Product from "../../components/Admin/Product";
 import Categories from "../../components/Admin/Categories";
 import { getAllProducts } from "../../services/ProductService";
@@ -13,10 +11,11 @@ import {
   Divider,
   Tooltip,
 } from "@mui/material";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Link } from "react-router-dom";
-import SettingsIcon from "@mui/icons-material/Settings";
 import DeleteCategory from "../../components/Admin/DeleteCategory";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import CreateIcon from "@mui/icons-material/Create";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const ProductsAdmin = () => {
   const [products, setProducts] = useState([]);

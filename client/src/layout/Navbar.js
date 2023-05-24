@@ -1,13 +1,15 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import { connect, useSelector } from "react-redux";
+import {
+  Box,
+  Avatar,
+  Menu,
+  MenuItem,
+  Divider,
+  IconButton,
+  Typography,
+  Tooltip,
+} from "@mui/material";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Logout from "../components/Logout";
 import Stack from "@mui/material/Stack";

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { forgotPassword, loginUser } from "../services/UserService";
+import { loginUser } from "../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
-import Stack from "@mui/material/Stack";
-import { Alert } from "@mui/material";
+import { Alert, Stack } from "@mui/material";
 import ForgotPassword from "../components/ForgotPassword";
 
 const Login = () => {

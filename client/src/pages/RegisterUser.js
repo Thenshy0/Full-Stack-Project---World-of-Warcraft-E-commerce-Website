@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { createUserRequest } from "../services/UserService";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import { Avatar } from "@mui/material";
+import { Avatar, Alert, Stack } from "@mui/material";
+
 const CreateUser = () => {
   //  name, email, password, phone, image
 
