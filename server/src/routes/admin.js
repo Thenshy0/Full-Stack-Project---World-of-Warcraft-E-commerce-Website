@@ -1,4 +1,5 @@
 const adminRouter = require("express").Router();
+
 const { isLoggedIn, isLoggedOut } = require("../middlewares/auth");
 const {
   loginAdmin,

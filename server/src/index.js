@@ -22,8 +22,7 @@ const PORT = dev.app.serverPort;
 app.use(cookieParser());
 app.use(
   cors({
-    // original: ["http://127.0.0.1:3000", "http://localhost:3000"],
-    original: ["http://127.0.0.1:3000", "*"],
+    original: ["http://127.0.0.1:3000", "http://localhost:3000"],
     credentials: true,
   })
 );
