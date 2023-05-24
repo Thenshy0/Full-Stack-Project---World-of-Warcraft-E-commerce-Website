@@ -48,6 +48,10 @@ app.get("/", apilimiter, (req, res) => {
   res.status(200).json({ message: "API is good" });
 });
 
+app.get("/api/test2", (req, res) => {
+  res.status(200).json({ message: "ALL COOL" });
+});
+
 app.listen(PORT, async () => {
   console.log(`server is running at http://localhost:${PORT}`);
   await connectDB();
