@@ -2,5 +2,11 @@
   "version": 2,
   "name": "e-commerce-app",
   "builds": [{ "src": "src/index.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "src/index.js" }]
+  "routes": [
+    { "src": "/(.*)", "dest": "src/index.js" },
+    { "src": "/(.*)", "dest": "src/routes/product.js" },
+    { "src": "/(.*)", "dest": "src/routes/users.js" },
+    { "src": "/(.*)", "dest": "src/routes/admin.js" },
+    { "src": "/(.*)", "dest": "src/routes/category.js" }
+  ]
 }
