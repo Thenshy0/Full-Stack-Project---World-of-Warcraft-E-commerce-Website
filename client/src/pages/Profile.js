@@ -74,49 +74,64 @@ const Profile = () => {
   return (
     <div>
       {profile ? (
-        <div className="single-user-card">
-          <Card sx={{ minWidth: 275 }}>
-            {" "}
-            {profile.is_admin === 1 ? (
-              <div className="card-bar">Admin Profile</div>
-            ) : (
-              <div className="card-bar">User Profile</div>
-            )}
-            <CardContent className="user">
-              <Stack>
-                <Avatar
-                  src={imageUrl}
-                  className="user_img"
-                  alt={profile.name}
-                  sx={{ width: 100, height: 100, marginLeft: 13 }}
-                ></Avatar>
+        <div>
+          <div className="single-user-card">
+            <Card sx={{ minWidth: 275 }}>
+              {" "}
+              {profile.is_admin === 1 ? (
+                <div className="card-bar">Admin Profile</div>
+              ) : (
+                <div className="card-bar">User Profile</div>
+              )}
+              <CardContent className="user">
+                <Stack>
+                  <Avatar
+                    src={imageUrl}
+                    className="user_img"
+                    alt={profile.name}
+                    sx={{ width: 100, height: 100, marginLeft: 13 }}
+                  ></Avatar>
+                  <br></br>
+                  <Divider />
+                  <br></br>
+                  <Typography
+                    sx={{ fontSize: 18, paddingLeft: 2 }}
+                    gutterBottom
+                  >
+                    User name: {profile.userName}
+                  </Typography>
+                  <Typography
+                    sx={{ fontSize: 18, paddingLeft: 2 }}
+                    gutterBottom
+                  >
+                    Full name: {profile.name}
+                  </Typography>
+                  <Typography
+                    sx={{ fontSize: 18, paddingLeft: 2 }}
+                    gutterBottom
+                  >
+                    Email: {profile.email}
+                  </Typography>
+                  <Typography
+                    sx={{ fontSize: 18, paddingLeft: 2 }}
+                    gutterBottom
+                  >
+                    Phone: {profile.phone}
+                  </Typography>
+                </Stack>
                 <br></br>
-                <Divider />
-                <br></br>
-                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                  User name: {profile.userName}
-                </Typography>
-                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                  Full name: {profile.name}
-                </Typography>
-                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                  Email: {profile.email}
-                </Typography>
-                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                  Phone: {profile.phone}
-                </Typography>
-              </Stack>
-              <br></br>
-              <Tooltip title="Settings">
-                <Link to={`/update-user/${user.id}`}>
-                  <SettingsIcon
-                    aria-haspopup="true"
-                    sx={{ fontSize: 30, paddingLeft: 1, color: "#202737" }}
-                  />
-                </Link>
-              </Tooltip>
-            </CardContent>
-          </Card>
+                <Tooltip title="Settings">
+                  <Link to={`/update-user/${user.id}`}>
+                    <SettingsIcon
+                      aria-haspopup="true"
+                      sx={{ fontSize: 30, paddingLeft: 1, color: "#202737" }}
+                    />
+                  </Link>
+                </Tooltip>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="profile-cover-pic"></div>
         </div>
       ) : (
         <p>Profile not found</p>

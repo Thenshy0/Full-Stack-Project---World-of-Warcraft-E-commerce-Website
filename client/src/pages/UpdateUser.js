@@ -88,149 +88,153 @@ const UpdateUser = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="single-user-card">
-        <Card sx={{ minWidth: 275 }}>
-          <CardContent className="user">
-            <Stack>
-              {formData.image && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Avatar
-                    className="user_img"
-                    src={URL.createObjectURL(formData.image || "")}
-                    alt="user"
-                    sx={{ width: 100, height: 100 }}
+      {" "}
+      <div>
+        <form onSubmit={handleSubmit} className="single-user-card">
+          <Card sx={{ minWidth: 275 }}>
+            <CardContent className="user">
+              <Stack>
+                {formData.image && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Avatar
+                      className="user_img"
+                      src={URL.createObjectURL(formData.image || "")}
+                      alt="user"
+                      sx={{ width: 100, height: 100 }}
+                    />
+                  </div>
+                )}
+                <br></br>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  <label htmlFor="name">New User name:</label>
+                  <input
+                    className="login-input"
+                    type="text"
+                    id="name"
+                    name="userName"
+                    value={formData.userName || ""}
+                    onChange={handleInputChange}
                   />
-                </div>
-              )}
-              <br></br>
-              <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                <label htmlFor="name">New User name:</label>
-                <input
-                  className="login-input"
-                  type="text"
-                  id="name"
-                  name="userName"
-                  value={formData.userName || ""}
-                  onChange={handleInputChange}
-                />
-              </Typography>
-              <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                <label htmlFor="name">New Full name: </label>
-                <input
-                  className="login-input"
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name || ""}
-                  onChange={handleInputChange}
-                />
-              </Typography>
-              <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                <label htmlFor="email">New Email address:</label>
-                <input
-                  className="login-input"
-                  type="text"
-                  id="email"
-                  name="email"
-                  value={formData.email || ""}
-                  onChange={handleInputChange}
-                />
-              </Typography>
-              <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                <label htmlFor="password">New Password:</label>
-                <input
-                  className="login-input"
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password || ""}
-                  onChange={handleInputChange}
-                />
-              </Typography>
-              <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
-                <label htmlFor="phone">New Phone number:</label>
-                <input
-                  className="login-input"
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  pattern="[+]{1}[0-9]{11,14}"
-                  value={formData.phone || ""}
-                  onChange={handleInputChange}
-                />
-              </Typography>
-            </Stack>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {" "}
-              <input
-                className="login-input"
-                type="file"
-                name="image"
-                id="image"
-                onChange={handleInputChange}
-                accept="image/*"
-                style={{ display: "none" }}
-              />
-              <label
-                htmlFor="image"
-                className="file-input-label"
+                </Typography>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  <label htmlFor="name">New Full name: </label>
+                  <input
+                    className="login-input"
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name || ""}
+                    onChange={handleInputChange}
+                  />
+                </Typography>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  <label htmlFor="email">New Email address:</label>
+                  <input
+                    className="login-input"
+                    type="text"
+                    id="email"
+                    name="email"
+                    value={formData.email || ""}
+                    onChange={handleInputChange}
+                  />
+                </Typography>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  <label htmlFor="password">New Password:</label>
+                  <input
+                    className="login-input"
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password || ""}
+                    onChange={handleInputChange}
+                  />
+                </Typography>
+                <Typography sx={{ fontSize: 18, paddingLeft: 2 }} gutterBottom>
+                  <label htmlFor="phone">New Phone number:</label>
+                  <input
+                    className="login-input"
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    pattern="[+]{1}[0-9]{11,14}"
+                    value={formData.phone || ""}
+                    onChange={handleInputChange}
+                  />
+                </Typography>
+              </Stack>
+              <div
                 style={{
-                  marginLeft: "1rem ",
-                  marginTop: "1.1rem",
-                  marginRight: "1rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                Choose File
-              </label>{" "}
-              <Tooltip title="Update">
-                <button
-                  className="login-button"
-                  type="submit"
-                  style={{ marginRight: "1rem" }}
+                {" "}
+                <input
+                  className="login-input"
+                  type="file"
+                  name="image"
+                  id="image"
+                  onChange={handleInputChange}
+                  accept="image/*"
+                  style={{ display: "none" }}
+                />
+                <label
+                  htmlFor="image"
+                  className="file-input-label"
+                  style={{
+                    marginLeft: "1rem ",
+                    marginTop: "1.1rem",
+                    marginRight: "1rem",
+                  }}
                 >
-                  Update
-                </button>
-              </Tooltip>
-              <Tooltip title="Cancel">
-                <Link
-                  to={`/user-profile/${id}`}
-                  className="login-button"
-                  type="submit"
-                  style={{ marginRight: "1rem", textDecoration: "none" }}
-                >
-                  Cancel
-                </Link>
-              </Tooltip>
-            </div>
-          </CardContent>
-        </Card>
-      </form>
-      {message && (
-        <div className="email-alert">
-          <Stack sx={{ width: "20%" }} spacing={2}>
-            <Alert
-              className="email-alert"
-              variant="outlined"
-              severity="success"
-              sx={{ bgcolor: "#cbb279", marginTop: 6 }}
-            >
-              {message}
-            </Alert>
-          </Stack>
-        </div>
-      )}
+                  Choose File
+                </label>{" "}
+                <Tooltip title="Update">
+                  <button
+                    className="login-button"
+                    type="submit"
+                    style={{ marginRight: "1rem" }}
+                  >
+                    Update
+                  </button>
+                </Tooltip>
+                <Tooltip title="Cancel">
+                  <Link
+                    to={`/user-profile/${id}`}
+                    className="login-button"
+                    type="submit"
+                    style={{ marginRight: "1rem", textDecoration: "none" }}
+                  >
+                    Cancel
+                  </Link>
+                </Tooltip>
+              </div>
+            </CardContent>
+          </Card>
+        </form>
+        {message && (
+          <div className="email-alert">
+            <Stack sx={{ width: "20%" }} spacing={2}>
+              <Alert
+                className="email-alert"
+                variant="outlined"
+                severity="success"
+                sx={{ bgcolor: "#cbb279", marginTop: 6 }}
+              >
+                {message}
+              </Alert>
+            </Stack>
+          </div>
+        )}
+      </div>
+      <div className="profile-cover-pic"></div>
     </div>
   );
 };
