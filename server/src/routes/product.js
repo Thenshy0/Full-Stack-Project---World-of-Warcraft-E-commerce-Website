@@ -1,3 +1,4 @@
+const cors = require("cors");
 const {
   addProduct,
   getProduct,
@@ -8,10 +9,10 @@ const {
 
 const productRouter = require("express").Router();
 const upload = require("../middlewares/fileUpload");
-
-productRouter.post("/", upload.single("image"), addProduct);
-productRouter.get("/:id", getProduct);
-productRouter.get("/", getAllProducts);
-productRouter.put("/update/:id", upload.single("image"), updateProduct);
-productRouter.delete("/delete/:id", deleteProduct);
+router.use(cors());
+productRouter.post("/", cors(), upload.single("image"), addProduct);
+productRouter.get("/:id", cors(), getProduct);
+productRouter.get("/", cors(), getAllProducts);
+productRouter.put("/update/:id", cors(), upload.single("image"), updateProduct);
+productRouter.delete("/delete/:id", cors(), deleteProduct);
 module.exports = productRouter;
