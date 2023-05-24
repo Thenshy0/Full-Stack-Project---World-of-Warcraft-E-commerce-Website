@@ -1,19 +1,12 @@
 {
   "version": 2,
   "name": "e-commerce-app",
-  "builds": [
-    { "src": "src/index.js", "use": "@vercel/node" },
-    { "src": "./src/routes/product.js", "use": "@vercel/node" },
-    { "src": "./src/routes/users.js", "use": "@vercel/node" },
-    { "src": "./src/routes/admin.js", "use": "@vercel/node" },
-    { "src": "./src/routes/category.js", "use": "@vercel/node" }
-  ],
+  "builds": [{ "src": "src/index.js", "use": "@vercel/node" }],
   "routes": [
     { "src": "/(.*)", "dest": "src/index.js" },
-    { "src": "/api/product", "dest": "src/routes/product.js" },
-    { "src": "/api/users", "dest": "src/routes/users.js" },
-    { "src": "/api/admin", "dest": "src/routes/admin.js" },
-    { "src": "/api/category", "dest": "src/routes/category.js" },
-    { "src": "/public", "dest": "src/index.js" }
+    { "src": "/(.*)", "dest": "src/routes/product.js" },
+    { "src": "/(.*)", "dest": "src/routes/users.js" },
+    { "src": "/(.*)", "dest": "src/routes/admin.js" },
+    { "src": "/(.*)", "dest": "src/routes/category.js" }
   ]
 }
