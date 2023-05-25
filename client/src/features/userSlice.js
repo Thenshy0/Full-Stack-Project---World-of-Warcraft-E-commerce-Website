@@ -31,13 +31,13 @@ export const userSlice = createSlice({
     login: (state, action) => {
       localStorage.setItem("loginStatus", "true");
       localStorage.setItem("user", JSON.stringify(action.payload));
-      console.log(action.payload.refreshToken);
+
       state.isLoggedIn = getLocalStoreItem();
       state.user = {
         ...action.payload,
         image: action.payload.image,
       };
-      console.log(action.payload);
+
       state.is_admin = action.payload.is_admin;
     },
     updateUser: (state, action) => {
