@@ -89,7 +89,8 @@ const SingleCategory = () => {
   console.log("object");
   console.log(category);
 
-  const imageUrl = "http://127.0.0.1:8080/public/images/users/" + image;
+  const imageUrl =
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
 
   console.log("imageurl", imageUrl);
   const handleUpdate = async (e) => {

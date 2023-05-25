@@ -34,9 +34,12 @@ const Navbar = () => {
 
   let imageUrl;
   if (user?.image?.name === undefined) {
-    imageUrl = "http://127.0.0.1:8080/public/images/users/" + user?.image;
+    imageUrl =
+      `${process.env.REACT_APP_BASEURL}/public/images/users/` + user?.image;
   } else
-    imageUrl = "http://127.0.0.1:8080/public/images/users/" + user?.image?.name;
+    imageUrl =
+      `${process.env.REACT_APP_BASEURL}/public/images/users/` +
+      user?.image?.name;
 
   return (
     // NAVBAR

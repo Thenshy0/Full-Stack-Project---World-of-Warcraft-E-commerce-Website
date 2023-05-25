@@ -92,7 +92,8 @@ const SingleProduct = () => {
   console.log("product");
   console.log(product);
 
-  const imageUrl = "http://127.0.0.1:8080/public/images/users/" + image;
+  const imageUrl =
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
 
   console.log("imageurl", imageUrl);
 

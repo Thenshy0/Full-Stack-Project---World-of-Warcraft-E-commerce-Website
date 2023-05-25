@@ -7,11 +7,12 @@ const Product = (props) => {
   const { name, description, price, image, createdAt, updatedAt, _id } =
     props.product;
 
-  const productImageUrl = "http://127.0.0.1:8080/public/images/users/" + image;
+  const productImageUrl =
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
   console.log(props.product);
   const categoryName = props.product?.category?.name;
   const categoryImageUrl =
-    "http://127.0.0.1:8080/public/images/users/" +
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` +
     props.product?.category?.image;
   return (
     <div>

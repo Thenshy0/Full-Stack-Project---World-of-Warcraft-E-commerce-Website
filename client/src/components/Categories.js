@@ -5,7 +5,8 @@ const Categories = (props) => {
   const { category, selectedCategory, onCategoryClick } = props;
   const { _id, name, image } = category;
 
-  const categoryImageUrl = "http://127.0.0.1:8080/public/images/users/" + image;
+  const categoryImageUrl =
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
   const handleCategoryClick = () => {
     onCategoryClick(_id);
   };

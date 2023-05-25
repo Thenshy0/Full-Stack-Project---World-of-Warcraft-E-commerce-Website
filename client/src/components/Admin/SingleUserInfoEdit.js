@@ -88,7 +88,8 @@ const SingleUser = () => {
     user.data.user;
   console.log("object");
   console.log(user.data.user);
-  const imageUrl = "http://127.0.0.1:8080/public/images/users/" + image;
+  const imageUrl =
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
 
   const handleUpdate = async (e) => {
     e.preventDefault();
