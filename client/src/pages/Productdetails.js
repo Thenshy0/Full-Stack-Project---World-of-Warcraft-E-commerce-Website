@@ -25,7 +25,7 @@ const Productdetails = () => {
         const userData = await SingleProductRequest(id);
         setProduct(userData);
       } catch (error) {
-        console.log("Error fetching product data:", error);
+        throw error;
       }
     };
 

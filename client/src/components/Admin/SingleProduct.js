@@ -40,7 +40,7 @@ const SingleProduct = () => {
         const userData = await SingleProductRequest(id);
         setProduct(userData);
       } catch (error) {
-        console.log("Error fetching product data:", error);
+        throw error;
       }
     };
 
@@ -89,13 +89,9 @@ const SingleProduct = () => {
   };
 
   const { image, createdAt, updatedAt, name, price, description } = product;
-  console.log("product");
-  console.log(product);
 
   const imageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
-
-  console.log("imageurl", imageUrl);
 
   const handleUpdate = async (e) => {
     e.preventDefault();

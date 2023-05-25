@@ -37,7 +37,7 @@ const SingleCategory = () => {
         const userData = await SingleCategoryRequest(id);
         setCategory(userData);
       } catch (error) {
-        console.log("Error fetching category data:", error);
+        throw error;
       }
     };
 
@@ -86,13 +86,12 @@ const SingleCategory = () => {
   };
 
   const { image, createdAt, updatedAt, name } = category;
-  console.log("object");
-  console.log(category);
+
 
   const imageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
 
-  console.log("imageurl", imageUrl);
+
   const handleUpdate = async (e) => {
     e.preventDefault();
 

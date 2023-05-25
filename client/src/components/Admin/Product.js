@@ -8,7 +8,7 @@ const Product = (props) => {
 
   const productImageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
-  console.log(props.product);
+
   const categoryName = props.product?.category?.name;
   const categoryImageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` +

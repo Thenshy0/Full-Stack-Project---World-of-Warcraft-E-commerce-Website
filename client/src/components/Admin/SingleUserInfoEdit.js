@@ -45,7 +45,7 @@ const SingleUser = () => {
         const userData = await profileRequest(id);
         setUser(userData);
       } catch (error) {
-        console.log("Error fetching user data:", error);
+        throw (error)
       }
     };
 
@@ -95,8 +95,7 @@ const SingleUser = () => {
 
   const { email, image, createdAt, isBanned, is_admin, name, phone, userName } =
     user.data.user;
-  console.log("object");
-  console.log(user.data.user);
+
   const imageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
 
