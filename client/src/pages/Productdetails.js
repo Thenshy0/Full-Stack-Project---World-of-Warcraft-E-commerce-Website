@@ -55,13 +55,9 @@ const Productdetails = () => {
   }
 
   const { image, name, price, description } = product;
-  console.log("product");
-  console.log(product);
 
   const imageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
-
-  console.log("imageurl", imageUrl);
 
   return (
     <div>

@@ -20,7 +20,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 const Navbar = () => {
   const isLoggedIn = useSelector((state) => state.userR.isLoggedIn);
   const user = useSelector((state) => state.userR.user);
-  console.log(user);
   const isAdmin = user?.isAdmin;
 
   const [anchorEl, setAnchorEl] = React.useState(null);

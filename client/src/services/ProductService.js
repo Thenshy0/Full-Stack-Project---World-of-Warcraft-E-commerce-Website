@@ -12,7 +12,7 @@ export const getAllProducts = async (search, page, limit, category) => {
 export const deleteProduct = async (id) => {
   try {
     const response = await axios.delete(`${baseURL}/api/product/delete/${id}`);
-    console.log("responsedelete", response);
+
     return response.data;
   } catch (error) {
     throw error.response.data.error.message;
@@ -20,7 +20,7 @@ export const deleteProduct = async (id) => {
 };
 export const SingleProductRequest = async (id) => {
   const response = await axios.get(`${baseURL}/api/product/${id}`);
-  console.log("url", response);
+
   return response.data;
 };
 
@@ -30,7 +30,7 @@ export const updateSingleProduct = async (id, updatedData) => {
       `${baseURL}/api/product/update/${id}`,
       updatedData
     );
-    console.log("categoryupdatereq", response);
+
     return response.data;
   } catch (error) {
     throw error.response.data.error.message;
@@ -39,7 +39,7 @@ export const updateSingleProduct = async (id, updatedData) => {
 export const createProduct = async (formData) => {
   try {
     const response = await axios.post(`${baseURL}/api/product`, formData);
-    console.log("resapi", response);
+
     return response.data;
   } catch (error) {
     throw error.response.data.error.message;

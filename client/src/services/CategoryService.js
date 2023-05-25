@@ -18,7 +18,7 @@ export const deleteCategory = async (id) => {
 };
 export const SingleCategoryRequest = async (id) => {
   const response = await axios.get(`${baseURL}/api/category/${id}`);
-  console.log("url", response);
+
   return response.data;
 };
 export const updateSingleCategory = async (id, updatedData) => {
@@ -27,7 +27,7 @@ export const updateSingleCategory = async (id, updatedData) => {
       `${baseURL}/api/category/update/${id}`,
       updatedData
     );
-    console.log("productupdatereq", response);
+
     return response.data;
   } catch (error) {
     throw error.response.data.error.message;

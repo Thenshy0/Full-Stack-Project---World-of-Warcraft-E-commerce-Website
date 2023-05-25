@@ -28,8 +28,6 @@ const Products = () => {
   };
   const fetchCategories = async () => {
     const response = await getAllCategories();
-    console.log("categories");
-    console.log(response);
     setCategories(response);
   };
   const handlePageChange = (event, newPage) => {

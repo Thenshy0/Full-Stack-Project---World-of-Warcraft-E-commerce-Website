@@ -31,7 +31,7 @@ const ForgotPassword = () => {
         forgotPasswordEmail,
         forgotPasswordPassword
       );
-      console.log(response);
+  
 
       setMessage(response.message);
       setShowForgotPasswordForm(false);

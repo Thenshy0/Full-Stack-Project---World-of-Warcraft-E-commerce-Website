@@ -64,7 +64,6 @@ const CreateUser = () => {
       setImage("");
     } catch (error) {
       setMessage(error.response.data.error.message);
-      console.log(error);
     }
   };
   return (

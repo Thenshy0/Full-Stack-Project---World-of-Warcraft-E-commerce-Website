@@ -9,7 +9,7 @@ const User = (props) => {
   const { name, image, userName } = props.user;
   const imageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
-  console.log(imageUrl);
+
   return (
     <div className="user-card">
       <Card sx={{ minWidth: 250 }}>

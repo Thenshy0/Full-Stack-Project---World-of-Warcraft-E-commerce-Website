@@ -16,7 +16,7 @@ const Logout = () => {
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
   return (

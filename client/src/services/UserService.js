@@ -82,7 +82,7 @@ export const logoutUser = async () => {
     const response = await axios.get(`${baseURL}/api/auth/logout`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 export const refreshTokenRequest = async (refreshToken) => {
@@ -92,7 +92,7 @@ export const refreshTokenRequest = async (refreshToken) => {
     });
     return response.data.accessToken;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 export const forgotPassword = async (email, password) => {

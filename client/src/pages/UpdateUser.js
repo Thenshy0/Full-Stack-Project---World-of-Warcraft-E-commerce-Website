@@ -75,8 +75,6 @@ const UpdateUser = () => {
     //   form.append("image", formData.image);
     // }
 
-    console.log("FORMDATA");
-    console.log(formData);
     try {
       await updateUserRequest(id, form);
       dispatch(updateUser(updatedFields, formData));

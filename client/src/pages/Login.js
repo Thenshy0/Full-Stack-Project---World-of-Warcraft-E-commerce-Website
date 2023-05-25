@@ -28,7 +28,6 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await loginUser({ email, password });
-      console.log(response.data.user.id);
       const user = response.data.user;
 
       dispatch(login(user));
