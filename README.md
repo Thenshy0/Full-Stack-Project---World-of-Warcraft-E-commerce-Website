@@ -1,6 +1,6 @@
 # Full Stack Project - World of Warcraft E-commerce Website
 
-[Deployment](https://full-stack-project-world-of-warcraft-e-commerce-website-wtf1.vercel.app/)
+[Deployment](https://full-stack-project-world-of-warcraft-e-commerce-app.vercel.app/)
 
 This project is a full-stack application that serves as an e-commerce website based on the popular game World of Warcraft. The website allows users to browse and purchase sets from the game, showcasing a variety of armor sets and accessories.
 
@@ -31,3 +31,7 @@ This project is a full-stack application that serves as an e-commerce website ba
 - Axios: HTTP client for making API requests.
 - React Material UI: Component library for designing responsive and visually appealing UI.
 - CSS: Styling and layout of the website.
+
+![Pre-view](./server/src/public/Screenshot_463.png "Pre-view")
+
+![Pre-view](./server/src/public/Screenshot_462.png "Pre-view")
