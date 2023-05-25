@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const DesignCard = () => {
   return (
-    <div className="main-card">
+    <div className="main-card" style={{ height: "60vh" }}>
       <Link to="/view-product/646cba6d3b47076eb848aa22">
         {" "}
         <img

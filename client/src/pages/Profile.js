@@ -61,43 +61,16 @@ const Profile = () => {
   //   return () => clearInterval(interval);
   // }, [handleRefresh]);
 
-  if (!loading) {
-    return (
-      <Alert
-        className="email-alert"
-        variant="outlined"
-        severity="success"
-        sx={{ bgcolor: "#cbb279", marginTop: 6 }}
-      >
-        loading...
-      </Alert>
-    );
-  }
-  if (!error) {
-    return (
-      <Alert
-        className="email-alert"
-        variant="outlined"
-        severity="success"
-        sx={{ bgcolor: "#cbb279", marginTop: 6 }}
-      >
-        {error}
-      </Alert>
-    );
-  }
-  if (!user) {
-    return (
-      <Alert
-        className="email-alert"
-        variant="outlined"
-        severity="success"
-        sx={{ bgcolor: "#cbb279", marginTop: 6 }}
-      >
-        Users loading...
-      </Alert>
-    );
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+  if (!user) {
+    return <div>Loading...</div>;
+  }
   const imageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` + profile.image;
   return (

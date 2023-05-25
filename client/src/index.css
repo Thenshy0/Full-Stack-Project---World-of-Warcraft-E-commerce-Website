@@ -333,15 +333,14 @@ button:hover {
   color: #ffd384;
   letter-spacing: 5px;
   text-shadow: 2px 2px 2px #000000, 4px 4px 4px #111111, 6px 6px 6px #222222;
-
   box-shadow: inset 2px 2px 25px rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 0.5rem;
   margin-top: 10rem;
-  /*  */
 }
+
 .home-card {
   width: fit-content;
   height: fit-content;
@@ -356,14 +355,14 @@ button:hover {
   background-position: center;
 }
 .home-card:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   box-shadow: 5px 5px 30px 10px #000000;
 }
 .main-card {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 6rem 5rem;
+  margin: 3rem 5rem;
 }
 .home-cover-pic {
   background-image: url("https://i.postimg.cc/zGqPJLZb/476552.jpg");
@@ -379,9 +378,79 @@ button:hover {
   background-image: url("https://i.postimg.cc/CKHVJZTw/pngwing-com.png");
   background-size: cover;
   background-position: center;
-  width: 20rem;
-  height: 25rem;
+  width: 40rem;
+  height: 50rem;
   margin-left: 10rem;
+  position: absolute;
+  top: 10rem;
+}
+.login-cover-pic {
+  background-image: url("https://i.postimg.cc/zvm31wRh/pngwing-com-3.png");
+  background-size: cover;
+  background-position: center;
+  width: 45rem;
+  height: 45rem;
+  margin-left: 10rem;
+  position: absolute;
+  top: 20rem;
+  left: 60rem;
+}
+.home-head-pic {
+  background-image: url("https://i.postimg.cc/ncTjXPjV/pngwing-com-6.png");
+  background-size: cover;
+  background-position: center;
+  width: 25rem;
+  height: 32rem;
+  /* margin-left: 10rem; */
+  position: absolute;
+  top: 6.5rem;
+  left: 90rem;
+}
+.home-head-pic-two {
+  background-image: url("https://i.postimg.cc/7Z6C0n03/pngwing-com-5.png");
+  background-size: cover;
+  background-position: center;
+  width: 50rem;
+  height: 32rem;
+  /* margin-left: 10rem; */
+  position: absolute;
+  top: 6.5rem;
+  left: 34rem;
+}
+.footer-cover-pic {
+  background-image: url("https://i.postimg.cc/HsT8sgLP/pngwing-com-7.png");
+  background-size: cover;
+  background-position: center;
+  background-size: cover;
+  background-position: center;
+  width: 20rem;
+  height: 30rem;
+  /* margin-left: 10rem; */
+  position: absolute;
+  top: 8rem;
+  left: 95rem;
+}
+.signup-cover-pic {
+  background-image: url("https://i.postimg.cc/QN5HJzRJ/pngwing-com-1.png");
+  background-size: cover;
+  background-position: center;
+  width: 26rem;
+  height: 49rem;
+  margin-left: 10rem;
+  position: absolute;
+  top: 0rem;
+  right: 69rem;
+}
+.activation-cover-pic {
+  background-image: url("https://i.postimg.cc/D0q0fWqM/pngwing-com-2.png");
+  background-size: cover;
+  background-position: center;
+  width: 42rem;
+  height: 54rem;
+  margin-left: 10rem;
+  position: absolute;
+  top: 0rem;
+  left: 50rem;
 }
 .home-cover-pic-card {
   position: absolute;

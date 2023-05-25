@@ -26,24 +26,27 @@ const Activate = () => {
     }
   };
   return (
-    <div className="activationbutton">
-      <button onClick={handleActivate} className="logoutButton">
-        Activate
-      </button>
-      {message && (
-        <div className="email-alert">
-          <Stack sx={{ width: "20%" }} spacing={2}>
-            <Alert
-              className="email-alert"
-              variant="outlined"
-              severity="success"
-              sx={{ bgcolor: "#cbb279", marginTop: 6 }}
-            >
-              {message}
-            </Alert>
-          </Stack>
-        </div>
-      )}
+    <div style={{ position: "relative" }}>
+      <div className="activationbutton">
+        <button onClick={handleActivate} className="logoutButton">
+          Activate
+        </button>
+        {message && (
+          <div className="email-alert">
+            <Stack sx={{ width: "20%" }} spacing={2}>
+              <Alert
+                className="email-alert"
+                variant="outlined"
+                severity="success"
+                sx={{ bgcolor: "#cbb279", marginTop: 6 }}
+              >
+                {message}
+              </Alert>
+            </Stack>
+          </div>
+        )}
+      </div>
+      <div className="activation-cover-pic"></div>
     </div>
   );
 };
