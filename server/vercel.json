@@ -3,5 +3,10 @@
   "name": "e-commerce-app",
   "builds": [{ "src": "src/index.js", "use": "@vercel/node" }],
   "routes": [{ "src": "/(.*)", "dest": "src/index.js" }],
-  "rewrites": [{ "source": "/src/(.*)", "destination": "/src" }]
+
+  "functions": {
+    "src/index.js": {
+      "maxDuration": 60
+    }
+  }
 }
