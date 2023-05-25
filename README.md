@@ -31,7 +31,3 @@ This project is a full-stack application that serves as an e-commerce website ba
 - Axios: HTTP client for making API requests.
 - React Material UI: Component library for designing responsive and visually appealing UI.
 - CSS: Styling and layout of the website.
-
-![Pre-view](./src/public/Screenshot_463.png "Pre-view")
-
-![Pre-view](./src/public/Screenshot_462.png "Pre-view")
