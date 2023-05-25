@@ -4,8 +4,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
 
 const Product = (props) => {
-  const { name, description, price, image, createdAt, updatedAt, _id } =
-    props.product;
+  const { name, image } = props.product;
 
   const productImageUrl =
     `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;

@@ -4,6 +4,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { profileRequest } from "../services/UserService";
 import { useSelector } from "react-redux";
 import {
+  Alert,
   Avatar,
   Card,
   CardContent,
@@ -60,17 +61,45 @@ const Profile = () => {
   //   return () => clearInterval(interval);
   // }, [handleRefresh]);
 
-  if (loading) {
-    return <p>Loading...</p>;
+  if (!loading) {
+    return (
+      <Alert
+        className="email-alert"
+        variant="outlined"
+        severity="success"
+        sx={{ bgcolor: "#cbb279", marginTop: 6 }}
+      >
+        loading...
+      </Alert>
+    );
   }
-
-  if (error) {
-    return <p>Error: {error}</p>;
+  if (!error) {
+    return (
+      <Alert
+        className="email-alert"
+        variant="outlined"
+        severity="success"
+        sx={{ bgcolor: "#cbb279", marginTop: 6 }}
+      >
+        {error}
+      </Alert>
+    );
   }
   if (!user) {
-    return <div>Loading...</div>;
+    return (
+      <Alert
+        className="email-alert"
+        variant="outlined"
+        severity="success"
+        sx={{ bgcolor: "#cbb279", marginTop: 6 }}
+      >
+        Users loading...
+      </Alert>
+    );
   }
-  const imageUrl = "http://127.0.0.1:8080/public/images/users/" + profile.image;
+
+  const imageUrl =
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` + profile.image;
   return (
     <div>
       {profile ? (

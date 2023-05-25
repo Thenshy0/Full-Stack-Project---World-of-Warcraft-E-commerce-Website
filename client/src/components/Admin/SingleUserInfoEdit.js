@@ -62,7 +62,16 @@ const SingleUser = () => {
   }, [message]);
 
   if (!user) {
-    return <div>Loading...</div>;
+    return (
+      <Alert
+        className="email-alert"
+        variant="outlined"
+        severity="success"
+        sx={{ bgcolor: "#cbb279", marginTop: 6 }}
+      >
+        Users loading...
+      </Alert>
+    );
   }
   const handleChange = (event) => {
     const { name, value, files } = event.target;

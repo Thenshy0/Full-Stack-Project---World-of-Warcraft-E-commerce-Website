@@ -7,7 +7,8 @@ import PersonIcon from "@mui/icons-material/Person";
 
 const User = (props) => {
   const { name, image, userName } = props.user;
-  const imageUrl = "http://127.0.0.1:8080/public/images/users/" + image;
+  const imageUrl =
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
   console.log(imageUrl);
   return (
     <div className="user-card">

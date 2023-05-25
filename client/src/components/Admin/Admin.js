@@ -14,7 +14,8 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 const Admin = (props) => {
   const { name, image, userName } = props.admin;
-  const imageUrl = "http://127.0.0.1:8080/public/images/users/" + image;
+  const imageUrl =
+    `${process.env.REACT_APP_BASEURL}/public/images/users/` + image;
   return (
     <div className="user-card">
       <Card sx={{ minWidth: 250 }}>
