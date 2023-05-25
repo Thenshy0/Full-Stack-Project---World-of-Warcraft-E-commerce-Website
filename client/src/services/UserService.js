@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // axios.defaults.withCredentials = true;
-const baseURL = "http://127.0.0.1:8080";
+const baseURL = process.env.REACT_APP_BASEURL;
 
 export const createUserRequest = async (newUser) => {
   const response = await axios.post(`${baseURL}/api/users/register`, newUser);
