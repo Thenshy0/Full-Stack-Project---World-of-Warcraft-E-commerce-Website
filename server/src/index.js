@@ -14,6 +14,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const createError = require("http-errors");
 const rateLimit = require("express-rate-limit");
+const Product = require("./models/product");
+const { getAllProducts } = require("./controllers/product");
 
 const app = express();
 
