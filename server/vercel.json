@@ -2,28 +2,5 @@
   "version": 2,
   "name": "e-commerce-app",
   "builds": [{ "src": "src/index.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "src/index.js" }],
-
-  "functions": {
-    "src/routes/product.js": {
-      "memory": 3008,
-      "maxDuration": 60
-    },
-    "src/routes/category.js": {
-      "memory": 1024,
-      "maxDuration": 30
-    },
-    "src/routes/users.js": {
-      "memory": 1024,
-      "maxDuration": 30
-    },
-    "src/routes/auth.js": {
-      "memory": 1024,
-      "maxDuration": 30
-    },
-    "src/routes/admin.js": {
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  }
+  "routes": [{ "src": "/(.*)", "dest": "src/index.js" }]
 }
