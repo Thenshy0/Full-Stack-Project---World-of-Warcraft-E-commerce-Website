@@ -32,6 +32,6 @@ This project is a full-stack application that serves as an e-commerce website ba
 - React Material UI: Component library for designing responsive and visually appealing UI.
 - CSS: Styling and layout of the website.
 
-![Pre-view](./server/src/public/Screenshot_463.png "Pre-view")
+![Pre-view](./src/public/Screenshot_463.png "Pre-view")
 
-![Pre-view](./server/src/public/Screenshot_462.png "Pre-view")
+![Pre-view](./src/public/Screenshot_462.png "Pre-view")
