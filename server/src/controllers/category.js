@@ -28,7 +28,7 @@ const getCategory = async (req, res, next) => {
     if (!category) {
       throw createError(404, "No category find by this ID");
     }
-    res.send(category);
+    sendResponse(res, 200, "Category details", category);
   } catch (error) {
     next(error);
   }
@@ -39,7 +39,7 @@ const getAllCategories = async (req, res, next) => {
     if (!category) {
       throw createError(404, "No category at all, please create some");
     }
-    res.send(category);
+    sendResponse(res, 200, "All categories", category);
   } catch (error) {
     next(error);
   }

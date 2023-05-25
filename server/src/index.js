@@ -58,15 +58,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-export const config = {
-  runtime: "edge", // this is a pre-requisite
-  regions: ["eu-north-1"], // only execute this function on iad1
-};
-
-export default (request) => {
-  return new Response(`Hello, from ${request.url} I'm now an Edge Function!`);
-};
-
 app.listen(PORT, async () => {
   console.log(`server is running at http://localhost:${PORT}`);
   await connectDB();

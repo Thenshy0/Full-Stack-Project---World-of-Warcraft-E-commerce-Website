@@ -41,7 +41,7 @@ const getProduct = async (req, res, next) => {
     if (!product) {
       throw createError(404, "No product find by this ID");
     }
-    res.send(product);
+    sendResponse(res, 200, "Product details", product);
   } catch (error) {
     next(error);
   }

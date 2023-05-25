@@ -14,4 +14,11 @@ productRouter.get("/:id", getProduct);
 productRouter.get("/", getAllProducts);
 productRouter.put("/update/:id", upload.single("image"), updateProduct);
 productRouter.delete("/delete/:id", deleteProduct);
+
+productRouter.get("*", (req, res) => {
+  res.status(404).json({
+    message: "404 not found",
+  });
+});
+
 module.exports = productRouter;

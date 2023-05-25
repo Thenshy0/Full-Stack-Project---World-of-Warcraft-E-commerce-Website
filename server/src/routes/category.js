@@ -14,4 +14,10 @@ categoryRouter.get("/:id", getCategory);
 categoryRouter.get("/", getAllCategories);
 categoryRouter.put("/update/:id", upload.single("image"), updateCategory);
 categoryRouter.delete("/delete/:id", deleteCategory);
+categoryRouter.get("*", (req, res) => {
+  res.status(404).json({
+    message: "404 not found",
+  });
+});
+
 module.exports = categoryRouter;
