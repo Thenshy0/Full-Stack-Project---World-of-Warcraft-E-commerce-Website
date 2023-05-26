@@ -9,6 +9,7 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Logout from "../components/Logout";
@@ -22,7 +23,7 @@ const Navbar = () => {
   const user = useSelector((state) => state.userR.user);
   const isAdmin = user?.isAdmin;
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

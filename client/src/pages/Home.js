@@ -100,9 +100,9 @@ const Home = () => {
               marginTop: "10rem",
             }}
             src="https://www.youtube.com/embed/jSJr3dXZfcg"
-            frameborder="0"
+            frameBorder="0"
             allow="autoplay; encrypted-media"
-            allowfullscreen
+            allowFullScreen
           ></iframe>
         </div>
         <div className="footer-cover-pic"> </div>
